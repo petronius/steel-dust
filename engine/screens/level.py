@@ -5,6 +5,7 @@ import engine.resources
 import engine.settings
 import engine.wizard
 
+
 class LevelAdministrator(engine.screen.Screen):
     def __init__(self, game):
         super(LevelAdministrator, self).__init__(game)

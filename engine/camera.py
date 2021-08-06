@@ -43,8 +43,9 @@ class GameCamera(object):
         self.board_y = 0
 
     def view(self, width, height):
-        self.w, self.h = width, height
-        glViewport(0, 0, width, height)
+        p = self.win.get_pixel_ratio()
+        self.w, self.h = width * p, height * p
+        glViewport(0, 0, int(self.w), int(self.h))
         if self.mode == 2:
             self.isometric()
         elif self.mode == 3:
@@ -184,8 +185,9 @@ class GameCamera(object):
 
 
 class CameraWindow(pyglet.window.Window):
+
     def __init__(self):
-        super(CameraWindow, self).__init__(fullscreen=False, resizable=True,
+        super(CameraWindow, self).__init__(fullscreen=False, resizable=False,
                                            width=settings.SCREEN_WIDTH,
                                            height=settings.SCREEN_HEIGHT)
         opengl_init()
@@ -193,9 +195,6 @@ class CameraWindow(pyglet.window.Window):
         self.on_resize = self.cam.view
         self.on_key_press = self.cam.key
         self.on_mouse_drag = self.cam.on_mouse_drag
-
-#        self.mouse_selector = ms.MouseSelector(self.cam)
-#        self.push_handlers(self.mouse_selector)
 
         pyglet.clock.schedule_interval(self.cam.scroll, settings.FRAMERATE)
         self.mouse_x, self.mouse_y = 0, 0
