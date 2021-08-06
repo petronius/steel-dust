@@ -1,7 +1,8 @@
-import engine
+from engine.game import Game
 
 def main():
-    engine.run()
+    game = Game()
+    game.execute()
 
 
 if __name__ == "__main__":

@@ -1,7 +1,8 @@
 import pyglet
 
-pyglet.resource.path = ["../resources"]
+pyglet.resource.path = ["resources"]
 pyglet.resource.reindex()
+
 
 # image tools
 def center_image(image):
@@ -9,11 +10,13 @@ def center_image(image):
     image.anchor_y = image.height/2
     return image
 
+
 def uncenter_image(image):
     image.anchor_x = 0
     image.anchor_y = 0
     return image
-	
+
+
 # IMAGES
 # backgrounds
 title = pyglet.resource.image("title.png")
