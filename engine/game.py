@@ -3,10 +3,14 @@ import pyglet
 import engine.menu
 import engine.camera
 import engine.level as level
+from engine.networking import ClientConnection
 
 class Game(object):
-    def __init__(self):
+    def __init__(self, host, port):
         self.current_screen = engine.menu.MainMenu(self)
+        self.connection = None
+        self.host = host
+        self.port = port
 
     def clearCurrentScreen(self):
         self.current_screen.clear()
@@ -22,6 +26,7 @@ class Game(object):
         self.clearCurrentScreen()
         self.current_screen = level.LevelAdministrator(self)
         self.startCurrentScreen()
+        self.connection = ClientConnection(self.host, self.port, "Captain Placeholder")
 
     def execute(self):
         self.window = engine.camera.CameraWindow()
