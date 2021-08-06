@@ -22,9 +22,9 @@ class Game(object):
         self.current_screen.start()
 
 
-    def startPlaying(self):
+    def startPlaying(self, wizard_name):
         self.clearCurrentScreen()
-        self.current_screen = level.LevelAdministrator(self)
+        self.current_screen = level.StartingLevel(self, wizard_name)
         self.startCurrentScreen()
 
     def execute(self):
