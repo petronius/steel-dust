@@ -1,6 +1,7 @@
 from random import choice
 
 import pyglet
+from pyglet.window import key
 
 import engine.screen
 import engine.resources
@@ -17,6 +18,9 @@ class StartingLevel(engine.screen.Screen):
         self.background = pyglet.graphics.OrderedGroup(0)
         self.batch = pyglet.graphics.Batch()
         self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch)
+        self.key_handler = pyglet.window.key.KeyStateHandler()
+        self.game.window.push_handlers(self.key_handler)
+#        pyglet.clock.schedule_interval(self.update, engine.settings.FRAMERATE)
 
     def on_key_press(self, symbol, modifiers):
         self.player_wizard.key_press(symbol, modifiers)
@@ -34,4 +38,7 @@ class StartingLevel(engine.screen.Screen):
         pass
 
     def update(self, dt):
-        return
+        if self.key_handler[key.LEFT]:
+            self.player_wizard.x -= 10 * dt
+        if self.key_handler[key.RIGHT]:
+            self.player_wizard.x += 10 * dt
