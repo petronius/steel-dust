@@ -15,22 +15,13 @@ class StartingLevel(engine.screen.Screen):
         self.map_width, self.map_height = engine.settings.MAP_WIDTH, engine.settings.MAP_HEIGHT
         self.foreground = pyglet.graphics.OrderedGroup(1)
         self.background = pyglet.graphics.OrderedGroup(0)
-        self.wizard_name = wizard_name
+        self.batch = pyglet.graphics.Batch()
+        self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch)
 
     def on_key_press(self, symbol, modifiers):
-        pass
+        self.player_wizard.key_press(symbol, modifiers)
 
     def start(self):
-        self.batch = pyglet.graphics.Batch()
-        self.terrain = []
-        poly_vertices = (50, 500, 250, 400, -50, -100)
-        self.test_poly = self.batch.add(3, pyglet.gl.GL_TRIANGLES, self.foreground,
-                                         ('v2f/stream', poly_vertices),
-                                        ('c3B', (50, 50, 255, 50, 50, 255,
-                                                 50, 50, 255))
-                                        )
-
-        self.player_wizard = engine.wizard.Wizard(self.wizard_name, self.batch)
         self.player_wizard.x, self.player_wizard.y = 200, 200
         print("GO")
 

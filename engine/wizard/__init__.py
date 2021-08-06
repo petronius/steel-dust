@@ -3,6 +3,7 @@ import random
 import pyglet
 
 import engine.wizard.namelist
+import engine.wizard.castmanager
 import engine.spells
 import engine.resources
 
@@ -28,8 +29,15 @@ class Wizard(pyglet.sprite.Sprite):
         self.batch = batch
         self.nameplate.batch = batch
 
+        self.cast_manager = engine.wizard.castmanager.CastManager(self._spells)
+
     def __str__(self):
         return "The Wizard %s" % self._name
+
+    def key_press(self, key, modifiers):
+        cast_spells = self.cast_manager.key_press(key, modifiers)
+        if len(cast_spells) > 0:
+            print("CASTING %s" % cast_spells)
 
 
 def random_wizard():
