@@ -1,6 +1,7 @@
 import sys
 from time import sleep, localtime
 from weakref import WeakKeyDictionary
+import logging
 
 from PodSixNet.Server import Server
 from PodSixNet.Channel import Channel
@@ -27,17 +28,17 @@ class GameServer(Server):
     def __init__(self, *args, **kwargs):
         Server.__init__(self, *args, **kwargs)
         self.players = WeakKeyDictionary()
-        print('Server launched')
+        logging.info('Server launched')
     
     def Connected(self, channel, addr):
         self.AddPlayer(channel)
-        print("connected")
+        logging.info("connected")
 
     def AddPlayer(self, player):
         print("New Player" + str(player.addr))
         self.players[player] = True
         self.SendPlayers()
-        print("players", [p for p in self.players])
+        logging.info("players", [p for p in self.players])
         
     def DelPlayer(self, player):
         print("Deleting Player" + str(player.addr))
@@ -54,6 +55,11 @@ class GameServer(Server):
         while True:
             self.Pump()
             sleep(0.0001)
+
+def RunDefaultServer():
+        host, port = "localhost",31425
+        s = GameServer(localaddr=(host,port))
+        s.Launch()
             
 # Get command line argument of server, port
 if __name__ == '__main__':
