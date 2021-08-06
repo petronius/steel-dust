@@ -19,10 +19,10 @@ class Fireball:
     """
     spell_level = 1
     mana_cost = 5
-    casting_combo = "()"
-    casting_type = "SINGLE_SHOT"
+    casting_combo = "PO"
     damage = 5
     defense = 0
+    duration = 100
 
     def __init__(self):
         self._name = "Fireball"
@@ -37,13 +37,13 @@ class Shield:
     """
     spell_level = 1
     mana_cost = 10
-    casting_combo = " "
-    casting_type = "CHANNELED"
+    casting_combo = "QWE"
     damage = 0
     defense = 10
+    duration = 5
 
     def __init__(self):
-        self._name = "Fireball"
+        self._name = "Shield"
 
     def on_cast(self):
         pass
