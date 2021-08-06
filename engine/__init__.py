@@ -9,3 +9,4 @@ def run():
     opponent = wizard.random_wizard()
     print("YOUR OPPONENT IS %s" % opponent)
 
+

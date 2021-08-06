@@ -1,9 +1,16 @@
 import random
 
 import engine.wizard.namelist
+import engine.spells
 
 
 class Wizard:
+
+    # everyone starts with the same spell list for now
+    _spells = [
+       engine.spells.Fireball,
+       engine.spells.Shield,
+    ]
 
     def __init__(self, name, color):
         self._name = name
