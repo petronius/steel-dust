@@ -1,8 +1,11 @@
+from random import choice
+
 import pyglet
 
 import engine.screen
 import engine.resources
 import engine.settings
+import engine.wizard
 
 
 class StartingLevel(engine.screen.Screen):
@@ -26,7 +29,10 @@ class StartingLevel(engine.screen.Screen):
                                         ('c3B', (50, 50, 255, 50, 50, 255,
                                                  50, 50, 255))
                                         )
-        print("GO")
+        self.test_wizard = engine.wizard.Wizard(choice(engine.wizard.namelist.names), choice(engine.wizard.namelist.colors))
+        self.test_wizard.x, self.test_wizard.y = 200, 200
+        self.test_wizard.batch = self.batch
+        print ("GO")
 
     def on_draw(self):
         super(StartingLevel, self).on_draw()

@@ -1,10 +1,13 @@
 import random
 
+import pyglet
+
 import engine.wizard.namelist
 import engine.spells
+import engine.resources
 
 
-class Wizard:
+class Wizard(pyglet.sprite.Sprite):
 
     # everyone starts with the same spell list for now
     _spells = [
@@ -12,7 +15,10 @@ class Wizard:
        engine.spells.Shield,
     ]
 
-    def __init__(self, name, color):
+    def __init__(self, name, color, *args, **kwargs):
+        default_image = engine.resources.wizard0
+        super(Wizard, self).__init__(default_image, *args, **kwargs)
+        self.update(scale=3.0)
         self._name = name
         self._color = color
         self._hitpoints = 20
