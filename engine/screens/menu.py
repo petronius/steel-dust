@@ -10,7 +10,7 @@ import engine.wizard
 
 class MenuLabel(glooey.Label):
     custom_font_name = 'Lato Regular'
-    custom_font_size = 30
+    custom_font_size = 16
     custom_color = '#ffffff'
     custom_alignment = 'center'
 
