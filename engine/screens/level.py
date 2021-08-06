@@ -28,9 +28,8 @@ class LevelAdministrator(engine.screen.Screen):
                                         ('c3B', (50, 50, 255, 50, 50, 255,
                                                  50, 50, 255))
                                         )
-        self.test_wizard = engine.wizard.Wizard(choice(engine.wizard.namelist.names), choice(engine.wizard.namelist.colors))
+        self.test_wizard = engine.wizard.Wizard(choice(engine.wizard.namelist.names), choice(engine.wizard.namelist.colors), self.batch)
         self.test_wizard.x, self.test_wizard.y = 200, 200
-        self.test_wizard.batch = self.batch
         print ("GO")
 
     def on_draw(self):

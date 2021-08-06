@@ -15,7 +15,7 @@ class Wizard(pyglet.sprite.Sprite):
        engine.spells.Shield,
     ]
 
-    def __init__(self, name, color, *args, **kwargs):
+    def __init__(self, name, color, batch, *args, **kwargs):
         default_image = engine.resources.wizard0
         super(Wizard, self).__init__(default_image, *args, **kwargs)
         self.update(scale=3.0)
@@ -23,6 +23,11 @@ class Wizard(pyglet.sprite.Sprite):
         self._color = color
         self._hitpoints = 20
         self._mana = 100
+
+        self.nameplate = pyglet.text.Label(self.__str__)
+
+        self.batch = batch
+        self.nameplate.batch = batch
 
     def __str__(self):
         return "The Wizard %s the %s" % (self._name, self._color)
