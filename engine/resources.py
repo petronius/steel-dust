@@ -20,3 +20,4 @@ def uncenter_image(image):
 # IMAGES
 # backgrounds
 title = pyglet.resource.image("title.png")
+wizard0 = pyglet.resource.animation("wizard0.gif")

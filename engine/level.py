@@ -3,6 +3,7 @@ import pyglet
 import engine.screen
 import engine.resources
 import engine.settings
+import engine.wizard
 
 class LevelAdministrator(engine.screen.Screen):
     def __init__(self, game):
@@ -24,6 +25,9 @@ class LevelAdministrator(engine.screen.Screen):
                                         ('c3B', (50, 50, 255, 50, 50, 255,
                                                  50, 50, 255))
                                         )
+        self.test_wizard = engine.wizard.Wizard("Bob", "red")
+        self.test_wizard.x, self.test_wizard.y = 200, 200
+        self.test_wizard.batch = self.batch
         print ("GO")
 
     def on_draw(self):
