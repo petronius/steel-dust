@@ -27,6 +27,7 @@ class MainMenu(engine.screen.Screen):
                                           x=0,
                                           y=0,
                                           batch=self.batch)
+        self.hello.scale = self.game.window.get_pixel_ratio()
 
     def on_draw(self):
         self.game.window.clear()

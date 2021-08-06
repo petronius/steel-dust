@@ -1,8 +1,8 @@
 import pyglet
 
-import engine.menu
+import engine.screens.menu
+import engine.screens.level as level
 import engine.camera
-import engine.level as level
 from engine.networking import ClientConnection
 
 class Game(object):
@@ -17,10 +17,12 @@ class Game(object):
         self.window.remove_handler("on_key_press", self.current_screen.on_key_press)
         self.window.remove_handler("on_draw", self.current_screen.on_draw)
 
+
     def startCurrentScreen(self):
         self.window.set_handler("on_key_press", self.current_screen.on_key_press)
         self.window.set_handler("on_draw", self.current_screen.on_draw)
         self.current_screen.start()
+
 
     def startPlaying(self):
         self.clearCurrentScreen()
