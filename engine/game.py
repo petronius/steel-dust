@@ -7,7 +7,7 @@ from engine.networking import ClientConnection
 
 class Game(object):
     def __init__(self, host, port):
-        self.current_screen = engine.menu.MainMenu(self)
+        self.current_screen = engine.screens.menu.MainMenu(self)
         self.connection = None
         self.host = host
         self.port = port
