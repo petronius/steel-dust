@@ -29,9 +29,10 @@ class StartingLevel(engine.screen.Screen):
                                         ('c3B', (50, 50, 255, 50, 50, 255,
                                                  50, 50, 255))
                                         )
-        self.test_wizard = engine.wizard.Wizard(choice(engine.wizard.namelist.names), choice(engine.wizard.namelist.colors), self.batch)
-        self.test_wizard.x, self.test_wizard.y = 200, 200
-        print ("GO")
+
+        self.player_wizard = engine.wizard.Wizard(self.wizard_name, self.batch)
+        self.player_wizard.x, self.player_wizard.y = 200, 200
+        print("GO")
 
     def on_draw(self):
         super(StartingLevel, self).on_draw()
