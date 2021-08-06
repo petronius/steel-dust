@@ -17,6 +17,7 @@ class Wizard(pyglet.sprite.Sprite):
 
     def __init__(self, name, color, batch, *args, **kwargs):
         default_image = engine.resources.wizard0
+        self.nameplate = None
         super(Wizard, self).__init__(default_image, *args, **kwargs)
         self.update(scale=3.0)
         self._name = name
@@ -31,6 +32,11 @@ class Wizard(pyglet.sprite.Sprite):
 
     def __str__(self):
         return "The Wizard %s the %s" % (self._name, self._color)
+
+    def update(self, *args, **kwargs):
+        super(Wizard, self).update(*args, **kwargs)
+        if self.nameplate is not None:
+            self.nameplate.update(x=self.x, y=self.y)
 
 
 def random_wizard():
