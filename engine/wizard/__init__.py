@@ -37,3 +37,9 @@ def random_wizard():
     name = random.choice(namelist.names)
     color = random.choice(namelist.colors)
     return Wizard(name, color)
+
+
+def random_name():
+    name = random.choice(namelist.names)
+    color = random.choice(namelist.colors)
+    return "%s the %s" % (name, color)

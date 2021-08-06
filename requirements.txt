@@ -1,3 +1,10 @@
+autoprop==3.0.0
+glooey==0.3.5
+more-itertools==8.8.0
 numpy==1.21.1
 pyglet==1.5.18
+PyYAML==5.4.1
+signature-dispatch==0.2.0
+typeguard==2.12.1
+vecrec==0.3.0
 PodSixNet==0.11.0
