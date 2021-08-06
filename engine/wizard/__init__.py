@@ -36,9 +36,9 @@ class Wizard(pyglet.sprite.Sprite):
         return "The Wizard %s" % self._name
 
     def key_press(self, key, modifiers):
-        cast_spells = self.cast_manager.key_press(key, modifiers)
-        if len(cast_spells) > 0:
-            print("CASTING %s" % cast_spells)
+        cast_spell = self.cast_manager.key_press(key, modifiers)
+        if cast_spell:
+            print("CASTING %s!" % cast_spell)
 
     def update(self, *args, **kwargs):
         super(Wizard, self).update(*args, **kwargs)
