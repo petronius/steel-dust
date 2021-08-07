@@ -24,9 +24,9 @@ class Wizard(pyglet.sprite.Sprite):
         self._name = name
         self._hitpoints = 20
         self._mana = 100
-        self._movespeed = 100
+        self._movespeed = 200
 
-        self.nameplate = pyglet.text.Label(self.__str__(), anchor_x='center', anchor_y='top')
+        self.nameplate = pyglet.text.Label(self.__str__(), font_name='Papyrus', anchor_x='center', anchor_y='top')
 
         self.batch = batch
         self.nameplate.batch = batch
