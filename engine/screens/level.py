@@ -17,7 +17,7 @@ class StartingLevel(engine.screen.Screen):
         self.foreground = pyglet.graphics.OrderedGroup(1)
         self.background = pyglet.graphics.OrderedGroup(0)
         self.batch = pyglet.graphics.Batch()
-        self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch, )
+        self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch)
         self.key_handler = pyglet.window.key.KeyStateHandler()
         pyglet.clock.schedule_interval(self.update, engine.settings.FRAMERATE)
 

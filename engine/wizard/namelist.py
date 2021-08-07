@@ -140,6 +140,17 @@ names = [
     "Ostibaer",
     "Pardick",
     "Tarbelio",
+    "Sammy",
+    "One-Eye",
+    "Prospero",
+    "Tumbledore",
+    "Minnie",
+    "Robert",
+    "Grace",
+    "Anna",
+    "Tina",
+    "Gudrun",
+    "Gwendoline",
 ]
 
 colors = [
@@ -289,4 +300,13 @@ colors = [
     "Hostile",
     "Thick",
     "Itchy",
+    "Crimson",
+    "Unearthly",
+    "Weak",
+    "Prude",
+    "Tetchy",
+    "Short",
+    "Tall",
+    "Understated",
+    "Reliable",
 ]
