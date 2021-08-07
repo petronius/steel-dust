@@ -17,9 +17,8 @@ class StartingLevel(engine.screen.Screen):
         self.foreground = pyglet.graphics.OrderedGroup(1)
         self.background = pyglet.graphics.OrderedGroup(0)
         self.batch = pyglet.graphics.Batch()
-        self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch)
+        self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch, )
         self.key_handler = pyglet.window.key.KeyStateHandler()
-#        self.game.window.push_handlers(self.key_handler)
         pyglet.clock.schedule_interval(self.update, engine.settings.FRAMERATE)
 
     def on_key_press(self, symbol, modifiers):
@@ -38,7 +37,13 @@ class StartingLevel(engine.screen.Screen):
         pass
 
     def update(self, dt):
+        new_x, new_y = self.player_wizard.x, self.player_wizard.y
         if self.key_handler[key.LEFT]:
-            self.player_wizard.x -= 10 * dt
+            new_x -= self.player_wizard._movespeed * dt
         if self.key_handler[key.RIGHT]:
-            self.player_wizard.x += 10 * dt
+            new_x += self.player_wizard._movespeed * dt
+        if self.key_handler[key.UP]:
+            new_y += self.player_wizard._movespeed * dt
+        if self.key_handler[key.DOWN]:
+            new_y -= self.player_wizard._movespeed * dt
+        self.player_wizard.update(x=new_x, y=new_y)

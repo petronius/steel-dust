@@ -12,15 +12,22 @@ class Game(object):
         self.host = host
         self.port = port
 
+
     def clearCurrentScreen(self):
         self.current_screen.clear()
-        self.window.remove_handler("on_key_press", self.current_screen.on_key_press)
-        self.window.remove_handler("on_draw", self.current_screen.on_draw)
+        self.window.pop_handlers()
+#        self.window.remove_handler("on_key_press", self.current_screen.on_key_press)
+#        self.window.remove_handler("on_draw", self.current_screen.on_draw)
+#        self.window.remove_handler("keyboard", self.current_screen.key_handler)
 
 
     def startCurrentScreen(self):
-        self.window.set_handler("on_key_press", self.current_screen.on_key_press)
-        self.window.set_handler("on_draw", self.current_screen.on_draw)
+        self.window.push_handlers(self.current_screen.on_key_press,
+                                  self.current_screen.on_draw,
+                                  self.current_screen.key_handler)
+#        self.window.set_handler("on_key_press", self.current_screen.on_key_press)
+#        self.window.set_handler("on_draw", self.current_screen.on_draw)
+#        self.window.set_handler("keyboard", self.current_screen.key_handler)
         self.current_screen.start()
 
 
@@ -30,7 +37,9 @@ class Game(object):
         self.startCurrentScreen()
         self.connection = ClientConnection(self.host, self.port, "Captain Placeholder")
 
+
     def execute(self):
         self.window = engine.camera.CameraWindow()
+        self.window.register_event_type("keyboard")
         self.startCurrentScreen()
         pyglet.app.run()

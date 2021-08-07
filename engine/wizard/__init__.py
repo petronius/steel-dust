@@ -24,8 +24,9 @@ class Wizard(pyglet.sprite.Sprite):
         self._name = name
         self._hitpoints = 20
         self._mana = 100
+        self._movespeed = 100
 
-        self.nameplate = pyglet.text.Label(self.__str__())
+        self.nameplate = pyglet.text.Label(self.__str__(), anchor_x='center', anchor_y='top')
 
         self.batch = batch
         self.nameplate.batch = batch
@@ -43,7 +44,7 @@ class Wizard(pyglet.sprite.Sprite):
     def update(self, *args, **kwargs):
         super(Wizard, self).update(*args, **kwargs)
         if self.nameplate is not None:
-            self.nameplate.update(x=self.x, y=self.y)
+            self.nameplate.x, self.nameplate.y = self.x, self.y
 
 
 def random_wizard():
