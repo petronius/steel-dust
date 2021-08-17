@@ -12,23 +12,15 @@ class ClientChannel(Channel):
 
     def __init__(self, *args, **kwargs):
         self.handle = "anonymous"
+        self.uuid = ""
         Channel.__init__(self, *args, **kwargs)
 
     def Close(self):
         self._server.DelPlayer(self)
 
-    def Network_message(self, data):
-        self._server.SendToAll({
-            "action": "message",
-            "message": data["message"],
-            "who": self.nickname
-        })
-
-    def Network_handle(self, data):
-        self.handle = data["handle"]
-        self._server.SendPlayers()
-
     def Network_playerconnect(self, data):
+        self.handle = data.get("name", "(unk)")
+        self.uuid = data.get("uuid", "(unk)")
         print("New player connection: %s" % data)
 
 
@@ -46,7 +38,7 @@ class GameServer(Server):
         logging.info("connected: %s" % str(addr))
 
     def AddPlayer(self, player):
-        print("New Player" + str(player.addr))
+        print("New Player %s (%s)" % (player, str(player.addr)))
         self.players[player] = True
         self.SendPlayers()
         logging.info("players", [p for p in self.players])
