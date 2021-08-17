@@ -25,17 +25,20 @@ class MainMenu(engine.screen.Screen):
         ]
 
     def handleNewGame(self):
-        self.game.startPlaying()
+        self.game.start_playing()
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key._1:
-            self.game.startPlaying(self.wizard_names[0])
+            self.game.start_playing(self.wizard_names[0])
         elif symbol == key._2:
-            self.game.startPlaying(self.wizard_names[1])
+            self.game.start_playing(self.wizard_names[1])
         elif symbol == key._3:
-            self.game.startPlaying(self.wizard_names[2])
+            self.game.start_playing(self.wizard_names[2])
         else:
             pass
+
+    def on_key_release(self, symbol, modifiers):
+        pass
 
     def clear(self):
         pass

@@ -3,43 +3,36 @@ import pyglet
 import engine.screens.menu
 import engine.screens.level as level
 import engine.camera
-from engine.networking import ClientConnection
+
 
 class Game(object):
+
     def __init__(self, host, port):
         self.current_screen = engine.screens.menu.MainMenu(self)
-        self.connection = None
+        self.window = None
+        # Keep these, used by the level
         self.host = host
         self.port = port
 
-
-    def clearCurrentScreen(self):
+    def clear_current_screen(self):
         self.current_screen.clear()
         self.window.pop_handlers()
-#        self.window.remove_handler("on_key_press", self.current_screen.on_key_press)
-#        self.window.remove_handler("on_draw", self.current_screen.on_draw)
-#        self.window.remove_handler("keyboard", self.current_screen.key_handler)
 
-
-    def startCurrentScreen(self):
-        self.window.push_handlers(self.current_screen.on_key_press,
-                                  self.current_screen.on_draw,
-                                  self.current_screen.key_handler)
-#        self.window.set_handler("on_key_press", self.current_screen.on_key_press)
-#        self.window.set_handler("on_draw", self.current_screen.on_draw)
-#        self.window.set_handler("keyboard", self.current_screen.key_handler)
+    def start_current_screen(self):
+        self.window.push_handlers(
+            self.current_screen.on_key_press,
+            self.current_screen.on_key_release,
+            self.current_screen.on_draw,
+        )
         self.current_screen.start()
 
-
-    def startPlaying(self, wizard_name):
-        self.clearCurrentScreen()
+    def start_playing(self, wizard_name):
+        self.clear_current_screen()
         self.current_screen = level.StartingLevel(self, wizard_name)
-        self.startCurrentScreen()
-        self.connection = ClientConnection(self.host, self.port, "Captain Placeholder")
-
+        self.start_current_screen()
 
     def execute(self):
         self.window = engine.camera.CameraWindow()
         self.window.register_event_type("keyboard")
-        self.startCurrentScreen()
+        self.start_current_screen()
         pyglet.app.run()
