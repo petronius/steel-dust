@@ -23,11 +23,9 @@ class ClientChannel(Channel):
         self.name = data.get("name", "(unk)")
         self.uuid = data.get("uuid", "(unk)")
         self.position = data.get("position", (200, 200))
-        print("Channel initialized for player: %s" % data)
         self._server.SendPlayers()
 
     def Network_position(self, data):
-        print("%s position update being broadcast: %s" % (self.uuid, self.position))
         self.position = data.get("position")
         self._server.SendToOthers(self, data)
 
@@ -46,7 +44,6 @@ class GameServer(Server):
         logging.info("connected: %s (waiting for player initialization)" % str(addr))
 
     def AddPlayer(self, player):
-        print("New Player %s (%s)" % (player, str(player.addr)))
         self.players[player] = True
         logging.info("players", [p for p in self.players])
 

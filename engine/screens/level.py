@@ -77,7 +77,7 @@ class StartingLevel(engine.screen.Screen):
         # disconnected.
         for uuid in self.enemy_wizards:
             if uuid not in uuids:
-                self.player_disconnect(uuids.get(uuid))
+                self.player_disconnect(self.enemy_wizards.get(uuid))
         # Check for uuids that the server has sent us, but are not in the enemy wizard list yet: those are new
         # connections
         for uuid in uuids:
