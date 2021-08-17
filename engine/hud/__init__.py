@@ -11,6 +11,9 @@ class HUD:
         cast_mgr = self.level.player_wizard.cast_manager
         spell_list = self.level.player_wizard._spells
 
+        for c in self.spellbook.casting_labels.values():
+            c.text = ""
+
         for s in spell_list:
             if len(cast_mgr.curr_l) > 0:
                 if s.casting_combo == cast_mgr.curr_l:
