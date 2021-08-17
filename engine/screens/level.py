@@ -80,18 +80,18 @@ class StartingLevel(engine.screen.Screen):
         uuids = {p.get("uuid"): p for p in data.get("players")}
         # Check for uuids that are in the local list of enemy wizards, but not in the player list: those players have
         # disconnected.
-        for uuid in self.enemy_wizards:
+        for uuid in list(self.enemy_wizards.keys()):
             if uuid not in uuids:
-                self.player_disconnect(self.enemy_wizards.get(uuid))
+                self.player_disconnect(uuid)
         # Check for uuids that the server has sent us, but are not in the enemy wizard list yet: those are new
         # connections
-        for uuid in uuids:
+        for uuid in list(uuids.keys()):
             if uuid not in self.enemy_wizards and uuid != self.local_player_id:
                 self.player_connect(uuids.get(uuid))
 
-    def player_disconnect(self, event_data):
-        self.enemy_wizards[event_data.get("uuid")].batch = None
-        del self.enemy_wizards[event_data.get("uuid")]
+    def player_disconnect(self, uuid):
+        self.enemy_wizards[uuid].remove()
+        del self.enemy_wizards[uuid]
 
     def player_position(self, event_data):
         print("position update:", event_data)

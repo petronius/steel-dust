@@ -57,6 +57,10 @@ class Wizard(pyglet.sprite.Sprite):
         if self.nameplate is not None:
             self.nameplate.x, self.nameplate.y = self.x, self.y
 
+    def remove(self):
+        self.batch = None
+        self.nameplate.batch = None
+
 
 def random_wizard():
     return Wizard(random_name())
