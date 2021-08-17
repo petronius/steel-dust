@@ -1,7 +1,5 @@
-import sys
-from time import sleep, localtime
+from time import sleep
 from weakref import WeakKeyDictionary
-import logging
 
 from PodSixNet.Server import Server
 from PodSixNet.Channel import Channel
@@ -23,10 +21,16 @@ class ClientChannel(Channel):
         self.name = data.get("name", "(unk)")
         self.uuid = data.get("uuid", "(unk)")
         self.position = data.get("position", (200, 200))
+        print("Channel initialized for player: %s" % data)
         self._server.SendPlayers()
 
     def Network_position(self, data):
+        print("%s position update being broadcast: %s" % (self.uuid, self.position))
         self.position = data.get("position")
+        self._server.SendToOthers(self, data)
+
+    def Network_animation(self, data):
+        print("sending animation: %s" % str(data))
         self._server.SendToOthers(self, data)
 
 
@@ -37,15 +41,16 @@ class GameServer(Server):
     def __init__(self, *args, **kwargs):
         Server.__init__(self, *args, **kwargs)
         self.players = WeakKeyDictionary()
-        logging.info('Server launched')
+        print('Server launched')
 
     def Connected(self, channel, addr):
         self.AddPlayer(channel)
-        logging.info("connected: %s (waiting for player initialization)" % str(addr))
+        print("connected: %s (waiting for player initialization)" % str(addr))
 
     def AddPlayer(self, player):
+        print("New Player %s (%s)" % (player, str(player.addr)))
         self.players[player] = True
-        logging.info("players", [p for p in self.players])
+        print("players", [p for p in self.players])
 
     def DelPlayer(self, player):
         print("Deleting Player" + str(player.addr))

@@ -22,14 +22,14 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         self.uuid = uuid
         self.nameplate = None
 
-        self.animation_manager = engine.wizard.animationmanager.AnimationManager(engine.resources.model_purp_wiz)
+        self.animation_manager = engine.wizard.animationmanager.AnimationManager(self, engine.resources.model_purp_wiz)
         super(Wizard, self).__init__(self.animation_manager.start_new_anim("idle"), *args, **kwargs)
 
         self._name = name
         self._hitpoints = 20
         self._mana = 100
         self._movespeed = 200
-        self.update(scale=3.0)
+        super(Wizard, self).update(scale=3.0)
 
         self.nameplate = pyglet.text.Label(self.__str__(), font_name='Papyrus', anchor_x='center', anchor_y='top')
 
@@ -50,12 +50,22 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         if key == 57:
             self.image = self.animation_manager.start_new_anim("cast1")
 
-    def update(self, *args, **kwargs):
+    def update_position(self, x, y):
+        self.set_position(x, y)
+        connection.Send({
+            "action": "position",
+            "uuid": self.uuid,
+            "position": (self.x, self.y),
+        })
+
+    def set_position(self, x, y):
+        super(Wizard, self).update(x=x, y=y)
+
+    def update(self):
         self.animation_manager.update()
         if self.animation_manager.state == "idle" and self.animation_manager.expires_in <= 0:
             self.image = self.animation_manager.start_new_anim("idle")
 
-        super(Wizard, self).update(*args, **kwargs)
         if self.nameplate is not None:
             self.nameplate.x, self.nameplate.y = self.x, self.y
 
@@ -65,16 +75,19 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         self.batch = None
         self.nameplate.batch = None
 
+    #
     # Network events
+    #
     def Network_position(self, data):
         uuid = data.get("uuid")
         if uuid == self.uuid:
             x, y = data.get("position")
-            self.update(x=x, y=y)
+            self.set_position(x=x, y=y)
 
-
-def random_wizard():
-    return Wizard(random_name())
+    def Network_animation(self, data):
+        uuid = data.get("uuid")
+        if uuid == self.uuid:
+            self.animation_manager.start_new_anim(data.get("state"))
 
 
 def random_name():
