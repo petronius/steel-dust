@@ -37,8 +37,8 @@ class StartingLevel(engine.screen.Screen):
         self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch, self.local_player_id)
         self.hud = engine.hud.HUD(self)
         self.movement_keys = {key.LEFT, key.RIGHT, key.UP, key.DOWN}
-        self.movement_keys = set((key.LEFT, key.RIGHT, key.UP, key.DOWN))
-        self.animation_test_keys = set((key._1, key._2, key._3, key._4, key._5, key._6, key._7, key._8, key._9, key._0))
+        self.movement_keys = {key.LEFT, key.RIGHT, key.UP, key.DOWN}
+        self.animation_test_keys = {key._1, key._2, key._3, key._4, key._5, key._6, key._7, key._8, key._9, key._0}
         self.key_handler = {
             key.LEFT: False,
             key.RIGHT: False,
