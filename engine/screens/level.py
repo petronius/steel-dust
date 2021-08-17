@@ -12,6 +12,7 @@ import engine.screen
 import engine.resources
 import engine.settings
 import engine.wizard
+import engine.hud
 from engine.screens.networking import ClientConnectionListener
 
 
@@ -28,12 +29,14 @@ class StartingLevel(engine.screen.Screen):
 
         self.map_width, self.map_height = engine.settings.MAP_WIDTH, engine.settings.MAP_HEIGHT
 
+        self.hudground = pyglet.graphics.OrderedGroup(2)
         self.foreground = pyglet.graphics.OrderedGroup(1)
         self.background = pyglet.graphics.OrderedGroup(0)
         self.batch = pyglet.graphics.Batch()
 
         self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch)
-        self.movement_keys = set((key.LEFT, key.RIGHT, key.UP, key.DOWN))
+        self.hud = engine.hud.HUD(self)
+        self.movement_keys = {key.LEFT, key.RIGHT, key.UP, key.DOWN}
         self.key_handler = {
             key.LEFT: False,
             key.RIGHT: False,
@@ -110,6 +113,7 @@ class StartingLevel(engine.screen.Screen):
         if self.key_handler[key.DOWN]:
             new_y -= self.player_wizard._movespeed * dt
         self.player_wizard.update(x=new_x, y=new_y)
+        self.hud.update(dt)
 
         if self.connection_listener is not None:
             self.connection_listener.update()
