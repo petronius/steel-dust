@@ -1,6 +1,7 @@
 import random
 
 import pyglet
+from PodSixNet.Connection import connection, ConnectionListener
 
 import engine.wizard.namelist
 import engine.wizard.castmanager
@@ -9,7 +10,7 @@ import engine.hud.spellbook
 import engine.resources
 
 
-class Wizard(pyglet.sprite.Sprite):
+class Wizard(pyglet.sprite.Sprite, ConnectionListener):
 
     # everyone starts with the same spell list for now
     _spells = [
@@ -17,10 +18,13 @@ class Wizard(pyglet.sprite.Sprite):
        engine.spells.Shield,
     ]
 
-    def __init__(self, name, batch, *args, **kwargs):
-        self.animation_manager = engine.wizard.animationmanager.AnimationManager(engine.resources.model_purp_wiz)
+    def __init__(self, name, batch, uuid, *args, **kwargs):
+        self.uuid = uuid
         self.nameplate = None
+
+        self.animation_manager = engine.wizard.animationmanager.AnimationManager(engine.resources.model_purp_wiz)
         super(Wizard, self).__init__(self.animation_manager.start_new_anim("idle"), *args, **kwargs)
+
         self._name = name
         self._hitpoints = 20
         self._mana = 100
@@ -37,11 +41,11 @@ class Wizard(pyglet.sprite.Sprite):
     def __str__(self):
         return "The Wizard %s" % self._name
 
-    def key_press(self, key, modifiers):        
+    def key_press(self, key, modifiers):
         cast_spell = self.cast_manager.key_press(key, modifiers)
         if cast_spell:
             print("CASTING %s!" % cast_spell)
-            
+
     def animation_test(self, key, modifiers):
         if key == 57:
             self.image = self.animation_manager.start_new_anim("cast1")
@@ -50,14 +54,23 @@ class Wizard(pyglet.sprite.Sprite):
         self.animation_manager.update()
         if self.animation_manager.state == "idle" and self.animation_manager.expires_in <= 0:
             self.image = self.animation_manager.start_new_anim("idle")
-            
+
         super(Wizard, self).update(*args, **kwargs)
         if self.nameplate is not None:
             self.nameplate.x, self.nameplate.y = self.x, self.y
 
+        self.Pump()
+
     def remove(self):
         self.batch = None
         self.nameplate.batch = None
+
+    # Network events
+    def Network_position(self, data):
+        uuid = data.get("uuid")
+        if uuid == self.uuid:
+            x, y = data.get("position")
+            self.update(x=x, y=y)
 
 
 def random_wizard():
