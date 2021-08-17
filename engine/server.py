@@ -11,25 +11,25 @@ from PodSixNet.Channel import Channel
 class ClientChannel(Channel):
 
     def __init__(self, *args, **kwargs):
-        self.handle = "anonymous"
+        self.name = "anonymous"
+        self.uuid = ""
+        self.position = (0, 0)
         Channel.__init__(self, *args, **kwargs)
 
     def Close(self):
         self._server.DelPlayer(self)
 
-    def Network_message(self, data):
-        self._server.SendToAll({
-            "action": "message",
-            "message": data["message"],
-            "who": self.nickname
-        })
-
-    def Network_handle(self, data):
-        self.handle = data["handle"]
+    def Network_playerconnect(self, data):
+        self.name = data.get("name", "(unk)")
+        self.uuid = data.get("uuid", "(unk)")
+        self.position = data.get("position", (200, 200))
+        print("Channel initialized for player: %s" % data)
         self._server.SendPlayers()
 
-    def Network_playerconnect(self, data):
-        print("New player connection: %s" % data)
+    def Network_position(self, data):
+        print("%s position update being broadcast: %s" % (self.uuid, self.position))
+        self.position = data.get("position")
+        self._server.SendToOthers(self, data)
 
 
 class GameServer(Server):
@@ -43,12 +43,11 @@ class GameServer(Server):
 
     def Connected(self, channel, addr):
         self.AddPlayer(channel)
-        logging.info("connected: %s" % str(addr))
+        logging.info("connected: %s (waiting for player initialization)" % str(addr))
 
     def AddPlayer(self, player):
-        print("New Player" + str(player.addr))
+        print("New Player %s (%s)" % (player, str(player.addr)))
         self.players[player] = True
-        self.SendPlayers()
         logging.info("players", [p for p in self.players])
 
     def DelPlayer(self, player):
@@ -57,13 +56,25 @@ class GameServer(Server):
         self.SendPlayers()
 
     def SendPlayers(self):
+        # don't send players that aren't fully initialized yet
+        players = filter(lambda p: p.uuid not in ("", "(unk)"), self.players)
         self.SendToAll({
             "action": "players",
-            "players": [p.handle for p in self.players]
+            "players": [{
+                "name": p.name,
+                "uuid": p.uuid,
+                "position": p.position,
+            } for p in players]
         })
 
     def SendToAll(self, data):
-        [p.Send(data) for p in self.players]
+        for p in self.players:
+            p.Send(data)
+
+    def SendToOthers(self, sender, data):
+        for p in self.players:
+            if p.uuid != sender.uuid:
+                p.Send(data)
 
     def Launch(self):
         while True:

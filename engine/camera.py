@@ -5,6 +5,7 @@ from pyglet.window import key
 import engine.settings as settings
 
 
+
 def opengl_init():
     """ Initial OpenGL configuration.
     """
@@ -199,6 +200,9 @@ class CameraWindow(pyglet.window.Window):
         pyglet.clock.schedule_interval(self.cam.scroll, settings.FRAMERATE)
         self.mouse_x, self.mouse_y = 0, 0
 
+    def world_coords_to_window_coords(self, x, y):
+        return self.cam.x + x, self.cam.y + y
+
     def on_mouse_motion(self, x, y, dx, dy):
         self.pan(x, y)
         self.mouse_x, self.mouse_y = x, y
@@ -213,6 +217,7 @@ class CameraWindow(pyglet.window.Window):
         self.pan(x, y)
 
     def pan(self, x, y):
+        return
         self.cam.scrolling = False
         if x <= 10:
             self.cam.scrolling = True
