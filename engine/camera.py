@@ -193,7 +193,7 @@ class CameraWindow(pyglet.window.Window):
         opengl_init()
         self.cam = GameCamera(self)
         self.on_resize = self.cam.view
-        self.on_key_press = self.cam.key
+#        self.on_key_press = self.cam.key
         self.on_mouse_drag = self.cam.on_mouse_drag
 
         pyglet.clock.schedule_interval(self.cam.scroll, settings.FRAMERATE)

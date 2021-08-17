@@ -37,6 +37,9 @@ class MainMenu(engine.screen.Screen):
         else:
             pass
 
+    def on_key_release(self, symbol, modifiers):
+        pass
+
     def clear(self):
         pass
 

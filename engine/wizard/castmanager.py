@@ -13,7 +13,9 @@ class CastManager:
         self.curr_r = ""
 
     def key_press(self, key, modifiers):
+        print(key, "SPELL KEY")
         k = pyglet.window.key.symbol_string(key)
+        print(k + " SPELL KEY")
         if k in self.bucket_l:
             self.curr_l += k
         elif k in self.bucket_c:

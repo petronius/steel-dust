@@ -21,8 +21,8 @@ class Game(object):
     def startCurrentScreen(self):
         self.window.push_handlers(
             self.current_screen.on_key_press,
+            self.current_screen.on_key_release,
             self.current_screen.on_draw,
-            self.current_screen.key_handler
         )
         self.current_screen.start()
 
