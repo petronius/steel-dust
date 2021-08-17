@@ -35,12 +35,12 @@ class StartingLevel(engine.screen.Screen):
         self.level_listener = LevelListener()
         pyglet.clock.schedule_interval(self.update, engine.settings.FRAMERATE)
 
-        try:
-            self.shader = pyshaders.from_files_names("shaders/sprite_shader.vert", "shaders/sprite_shader.frag")
-        except pyshaders.ShaderCompilationError as p:
-            self.shader = None
-            print(p.logs)
-            exit()
+#        try:
+#            self.shader = pyshaders.from_files_names("shaders/sprite_shader.vert", "shaders/sprite_shader.frag")
+#        except pyshaders.ShaderCompilationError as p:
+#            self.shader = None
+#            print(p.logs)
+#            exit()
 
     def on_key_press(self, symbol, modifiers):
         self.player_wizard.key_press(symbol, modifiers)
