@@ -217,6 +217,7 @@ class CameraWindow(pyglet.window.Window):
         self.pan(x, y)
 
     def pan(self, x, y):
+        return
         self.cam.scrolling = False
         if x <= 10:
             self.cam.scrolling = True

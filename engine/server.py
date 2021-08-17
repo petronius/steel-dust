@@ -57,6 +57,7 @@ class GameServer(Server):
             "players": [{
                 "name": p.name,
                 "uuid": p.uuid,
+                "position": p.position,
             } for p in self.players]
         })
 
