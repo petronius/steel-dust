@@ -2,14 +2,15 @@
 from PodSixNet.Connection import connection, ConnectionListener
 
 
-class ClientConnection(ConnectionListener):
-    def __init__(self, host, port, handle):
-        self.Connect((host, port))
-        print("Client connection initiated")
-        connection.Send({"handle": handle})
+class ClientConnectionListener(ConnectionListener):
 
-    def Pump(self):
-        connection.Pump()
+    def __init__(self, host, port):
+        self.Connect((host, port))
+        self.update()
+        print("Client connection initiated")
+
+    def Network(self, data):
+        print("Network:", data)
 
     def Network_players(self, data):
         print("*** players: " + ", ".join([p for p in data['players']]))
@@ -17,16 +18,20 @@ class ClientConnection(ConnectionListener):
     def Network_message(self, data):
         print(data['who'] + ": " + data['message'])
 
-    # built in stuff
-
     def Network_connected(self, data):
-        print("Connection successful!")
+        print("Connection successful!", data)
 
     def Network_error(self, data):
-        print('error:', data['error'][1])
+        print('error:', data['error'])
         connection.Close()
+        raise RuntimeError("Connection failed!")
 
     def Network_disconnected(self, data):
-        print('Server disconnected')
+        print('Server disconnected:', data)
 
+    def Network_playerconnect(self, data):
+        print("New player has joined:", data)
 
+    def update(self):
+        self.Pump()
+        connection.Pump()
