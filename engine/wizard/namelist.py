@@ -310,3 +310,8 @@ colors = [
     "Understated",
     "Reliable",
 ]
+
+if __name__ == "__main__":
+    import random
+    for _ in range(100):
+        print("%s the %s" % (random.choice(names), random.choice(colors)))
