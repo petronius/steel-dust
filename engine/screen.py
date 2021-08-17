@@ -4,6 +4,7 @@ class Screen(object):
         self.game = game
         self.x_offset = 0
         self.y_offset = 0
+        self.key_handler = None
 
     def clear(self):
         pass
