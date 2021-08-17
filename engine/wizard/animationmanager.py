@@ -26,11 +26,14 @@ class AnimationManager:
         return anim
 
     def broadcast_anim(self, state):
-        connection.Send({
-            "action": "animation",
-            "state": state,
-            "uuid": self.wizard.uuid
-        })
+        try:
+            connection.Send({
+                "action": "animation",
+                "state": state,
+                "uuid": self.wizard.uuid
+            })
+        except AttributeError as e:
+            print("Animation broadcast failed, is the connection not ready yet? %s" % e)
 
     def update(self):
         if self.expires_in > 0:
