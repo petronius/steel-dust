@@ -67,7 +67,7 @@ class StartingLevel(engine.screen.Screen):
             self.enemy_wizards[event_data.get("uuid")] = w
 
     def update_players(self, data):
-        uuids = {p.get("uuid"): p for p in data}
+        uuids = {p.get("uuid"): p for p in data.get("players")}
         for uuid in self.enemy_wizards:
             if uuid not in uuids:
                 self.player_disconnect(uuids.get(uuid))
