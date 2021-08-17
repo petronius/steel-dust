@@ -32,7 +32,7 @@ class StartingLevel(engine.screen.Screen):
         self.background = pyglet.graphics.OrderedGroup(0)
         self.batch = pyglet.graphics.Batch()
 
-        self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch)
+        self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch, self.local_player_id)
         self.hud = engine.hud.HUD(self)
         self.movement_keys = {key.LEFT, key.RIGHT, key.UP, key.DOWN}
         self.player_wizard.update(x=200, y=200)
@@ -71,7 +71,7 @@ class StartingLevel(engine.screen.Screen):
         if event_data.get("uuid") == self.local_player_id:
             pass
         else:
-            w = engine.wizard.Wizard(event_data.get("name"), self.batch)
+            w = engine.wizard.Wizard(event_data.get("name"), self.batch, event_data.get("uuid"))
             w.x, w.y = event_data.get("position")
             w.update(x=w.x, y=w.y)
             self.enemy_wizards[event_data.get("uuid")] = w
@@ -93,18 +93,11 @@ class StartingLevel(engine.screen.Screen):
         self.enemy_wizards[uuid].remove()
         del self.enemy_wizards[uuid]
 
-    def player_position(self, event_data):
-        print("position update:", event_data)
-        w = self.enemy_wizards.get(event_data.get("uuid"))
-        if w and event_data.get("position"):
-            x, y = event_data.get("position")
-            w.update(x=x, y=y)
-
     def on_key_press(self, symbol, modifiers):
         if symbol in self.movement_keys:
             self.key_handler[symbol] = True
         self.player_wizard.key_press(symbol, modifiers)
-        
+
         if symbol in self.animation_test_keys:
             self.player_wizard.animation_test(symbol, modifiers)
 
@@ -143,6 +136,7 @@ class StartingLevel(engine.screen.Screen):
                     "uuid": self.local_player_id,
                     "position": (self.player_wizard.x, self.player_wizard.y),
                 })
+
         self.player_wizard.update(x=new_x, y=new_y)
         self.hud.update(dt)
 

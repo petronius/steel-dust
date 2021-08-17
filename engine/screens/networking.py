@@ -17,9 +17,6 @@ class ClientConnectionListener(ConnectionListener):
         print("*** players: " + ", ".join([p.get("name") for p in data['players']]))
         self.level.update_players(data)
 
-    def Network_message(self, data):
-        print(data['who'] + ": " + data['message'])
-
     def Network_connected(self, data):
         print("Connection successful!", data)
 
@@ -34,9 +31,6 @@ class ClientConnectionListener(ConnectionListener):
     def Network_playerconnect(self, data):
         print("New player has joined:", data)
         self.level.player_connect(data)
-
-    def Network_position(self, data):
-        self.level.player_position(data)
 
     def update(self):
         self.Pump()
