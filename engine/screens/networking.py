@@ -35,6 +35,9 @@ class ClientConnectionListener(ConnectionListener):
         print("New player has joined:", data)
         self.level.player_connect(data)
 
+    def Network_position(self, data):
+        self.level.player_position(data)
+
     def update(self):
         self.Pump()
         connection.Pump()

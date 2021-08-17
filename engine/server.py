@@ -13,6 +13,7 @@ class ClientChannel(Channel):
     def __init__(self, *args, **kwargs):
         self.name = "anonymous"
         self.uuid = ""
+        self.position = (0, 0)
         Channel.__init__(self, *args, **kwargs)
 
     def Close(self):
@@ -21,6 +22,7 @@ class ClientChannel(Channel):
     def Network_playerconnect(self, data):
         self.name = data.get("name", "(unk)")
         self.uuid = data.get("uuid", "(unk)")
+        self.position = data.get("position", (200, 200))
         print("Channel initialized for player: %s" % data)
         self._server.SendPlayers()
 

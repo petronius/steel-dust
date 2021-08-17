@@ -56,7 +56,8 @@ class StartingLevel(engine.screen.Screen):
         self.connection_listener.Send({
             "action": "playerconnect",
             "name": wizard_name,
-            "uuid": self.local_player_id
+            "uuid": self.local_player_id,
+            "position": (self.player_wizard.x, self.player_wizard.y),
         })
 
     def player_connect(self, event_data):
@@ -64,6 +65,7 @@ class StartingLevel(engine.screen.Screen):
             pass
         else:
             w = engine.wizard.Wizard(event_data.get("name"), self.batch)
+            w.x, w.y = event_data.get("position")
             self.enemy_wizards[event_data.get("uuid")] = w
 
     def update_players(self, data):
@@ -75,6 +77,11 @@ class StartingLevel(engine.screen.Screen):
     def player_disconnect(self, event_data):
         self.enemy_wizards[event_data.get("uuid")].batch = None
         del self.enemy_wizards[event_data.get("uuid")]
+
+    def player_position(self, event_data):
+        w = self.enemy_wizards.get(event_data.get("uuid"))
+        if w and w.get("position"):
+            w.x, w.y = event_data.get("position")
 
     def on_key_press(self, symbol, modifiers):
         if symbol in self.movement_keys:
@@ -110,6 +117,11 @@ class StartingLevel(engine.screen.Screen):
         if self.key_handler[key.DOWN]:
             new_y -= self.player_wizard._movespeed * dt
         self.player_wizard.update(x=new_x, y=new_y)
+        self.connection_listener.Send({
+            "action": "position",
+            "uuid": self.local_player_id,
+            "position": (self.player_wizard.x, self.player_wizard.y),
+        })
 
         if self.connection_listener is not None:
             self.connection_listener.update()
