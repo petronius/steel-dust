@@ -139,7 +139,6 @@ class StartingLevel(engine.screen.Screen):
                     "uuid": self.local_player_id,
                     "position": (self.player_wizard.x, self.player_wizard.y),
                 })
-            self.player_wizard.update(x=new_x, y=new_y)
         self.player_wizard.update(x=new_x, y=new_y)
         self.hud.update(dt)
 
