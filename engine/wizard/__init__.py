@@ -48,8 +48,6 @@ class Wizard(pyglet.sprite.Sprite):
 
     def update(self, *args, **kwargs):
         self.animation_manager.update()
-        print(self.animation_manager.state)
-        print(self.animation_manager.expires_in)
         if self.animation_manager.state == "idle" and self.animation_manager.expires_in <= 0:
             self.image = self.animation_manager.start_new_anim("idle")
             
