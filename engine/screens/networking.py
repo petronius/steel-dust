@@ -4,8 +4,9 @@ from PodSixNet.Connection import connection, ConnectionListener
 
 class ClientConnectionListener(ConnectionListener):
 
-    def __init__(self, host, port):
-        self.Connect((host, port))
+    def __init__(self, level):
+        self.level = level
+        self.Connect((level.game.host, level.game.port))
         self.update()
         print("Client connection initiated")
 
@@ -14,6 +15,7 @@ class ClientConnectionListener(ConnectionListener):
 
     def Network_players(self, data):
         print("*** players: " + ", ".join([p for p in data['players']]))
+        self.level.update_players(data)
 
     def Network_message(self, data):
         print(data['who'] + ": " + data['message'])
@@ -31,6 +33,7 @@ class ClientConnectionListener(ConnectionListener):
 
     def Network_playerconnect(self, data):
         print("New player has joined:", data)
+        self.level.player_connect(data)
 
     def update(self):
         self.Pump()

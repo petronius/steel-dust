@@ -1,4 +1,5 @@
 from random import choice
+import uuid
 
 import pyglet
 from pyglet.window import key
@@ -11,7 +12,7 @@ import engine.screen
 import engine.resources
 import engine.settings
 import engine.wizard
-from engine.networking import ClientConnectionListener
+from engine.screens.networking import ClientConnectionListener
 
 
 class StartingLevel(engine.screen.Screen):
@@ -21,6 +22,7 @@ class StartingLevel(engine.screen.Screen):
         super(StartingLevel, self).__init__(game)
         self.game = game
 
+        self.local_player_id = str(uuid.uuid4())
         self.connection_listener = None
         self.connect_to_server(wizard_name)
 
@@ -40,6 +42,8 @@ class StartingLevel(engine.screen.Screen):
         }
         pyglet.clock.schedule_interval(self.update, engine.settings.FRAMERATE)
 
+        self.enemy_wizards = {}
+
 #        try:
 #            self.shader = pyshaders.from_files_names("shaders/sprite_shader.vert", "shaders/sprite_shader.frag")
 #        except pyshaders.ShaderCompilationError as p:
@@ -48,12 +52,29 @@ class StartingLevel(engine.screen.Screen):
 #            exit()
 
     def connect_to_server(self, wizard_name):
-        self.connection_listener = ClientConnectionListener(self.game.host, self.game.port)
+        self.connection_listener = ClientConnectionListener(self)
         self.connection_listener.Send({
             "action": "playerconnect",
-            "name": wizard_name
+            "name": wizard_name,
+            "uuid": self.local_player_id
         })
-        print("(Client) Connected: ", self.connection_listener)
+
+    def player_connect(self, event_data):
+        if uuid == self.local_player_id:
+            pass
+        else:
+            w = engine.wizard.Wizard(event_data.get("name"), self.batch)
+            self.enemy_wizards[event_data.get("uuid")] = w
+
+    def update_players(self, data):
+        uuids = {p.get("uuid"): p for p in data}
+        for uuid in self.enemy_wizards:
+            if uuid not in uuids:
+                self.player_disconnect(uuids.get(uuid))
+
+    def player_disconnect(self, event_data):
+        self.enemy_wizards[event_data.get("uuid")].batch = None
+        del self.enemy_wizards[event_data.get("uuid")]
 
     def on_key_press(self, symbol, modifiers):
         if symbol in self.movement_keys:

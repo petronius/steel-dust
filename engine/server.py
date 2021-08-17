@@ -11,25 +11,18 @@ from PodSixNet.Channel import Channel
 class ClientChannel(Channel):
 
     def __init__(self, *args, **kwargs):
-        self.handle = "anonymous"
+        self.name = "anonymous"
+        self.uuid = ""
         Channel.__init__(self, *args, **kwargs)
 
     def Close(self):
         self._server.DelPlayer(self)
 
-    def Network_message(self, data):
-        self._server.SendToAll({
-            "action": "message",
-            "message": data["message"],
-            "who": self.nickname
-        })
-
-    def Network_handle(self, data):
-        self.handle = data["handle"]
-        self._server.SendPlayers()
-
     def Network_playerconnect(self, data):
-        print("New player connection: %s" % data)
+        self.name = data.get("name", "(unk)")
+        self.uuid = data.get("uuid", "(unk)")
+        print("Channel initialized for player: %s" % data)
+        self._server.SendPlayers()
 
 
 class GameServer(Server):
@@ -44,11 +37,11 @@ class GameServer(Server):
     def Connected(self, channel, addr):
         self.AddPlayer(channel)
         logging.info("connected: %s" % str(addr))
+        self.SendPlayers()
 
     def AddPlayer(self, player):
-        print("New Player" + str(player.addr))
+        print("New Player %s (%s)" % (player, str(player.addr)))
         self.players[player] = True
-        self.SendPlayers()
         logging.info("players", [p for p in self.players])
 
     def DelPlayer(self, player):
@@ -59,7 +52,10 @@ class GameServer(Server):
     def SendPlayers(self):
         self.SendToAll({
             "action": "players",
-            "players": [p.handle for p in self.players]
+            "players": [{
+                "name": p.name,
+                "uuid": p.uuid,
+            } for p in self.players]
         })
 
     def SendToAll(self, data):
