@@ -29,6 +29,10 @@ class ClientChannel(Channel):
         self.position = data.get("position")
         self._server.SendToOthers(self, data)
 
+    def Network_animation(self, data):
+        print("sending animation: %s" % str(data))
+        self._server.SendToOthers(self, data)
+
 
 class GameServer(Server):
 

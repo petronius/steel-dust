@@ -22,7 +22,7 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         self.uuid = uuid
         self.nameplate = None
 
-        self.animation_manager = engine.wizard.animationmanager.AnimationManager(engine.resources.model_purp_wiz)
+        self.animation_manager = engine.wizard.animationmanager.AnimationManager(self, engine.resources.model_purp_wiz)
         super(Wizard, self).__init__(self.animation_manager.start_new_anim("idle"), *args, **kwargs)
 
         self._name = name
@@ -75,12 +75,19 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         self.batch = None
         self.nameplate.batch = None
 
+    #
     # Network events
+    #
     def Network_position(self, data):
         uuid = data.get("uuid")
         if uuid == self.uuid:
             x, y = data.get("position")
             self.set_position(x=x, y=y)
+
+    def Network_animation(self, data):
+        uuid = data.get("uuid")
+        if uuid == self.uuid:
+            self.animation_manager.start_new_anim(data.get("state"))
 
 
 def random_name():

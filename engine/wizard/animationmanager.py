@@ -1,11 +1,14 @@
+from pyglet import clock
+from PodSixNet.Connection import connection
+
 import engine.resources
 import engine.settings
-from pyglet import clock
 
 
 class AnimationManager:
 
-    def __init__(self, model):
+    def __init__(self, wizard, model):
+        self.wizard = wizard
         self.model = model
         self.state = "idle"
         self.animations = ("walk", "cast1", "cast2", "cast3", "idle", "die", "hit")
@@ -15,11 +18,19 @@ class AnimationManager:
     # manager returns to the "idle" state
     def start_new_anim(self, state):
         self.state = state
+        self.broadcast_anim(state)
         anim, time = self.model.get_anim(self.state)
         if anim == None:
             anim = self.model.get_anim("idle")
         self.expires_in = time
         return anim
+
+    def broadcast_anim(self, state):
+        connection.Send({
+            "action": "animation",
+            "state": state,
+            "uuid": self.wizard.uuid
+        })
 
     def update(self):
         if self.expires_in > 0:
