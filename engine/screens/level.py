@@ -32,6 +32,7 @@ class StartingLevel(engine.screen.Screen):
 
         self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch)
         self.movement_keys = set((key.LEFT, key.RIGHT, key.UP, key.DOWN))
+        self.animation_test_keys = set((key._1, key._2, key._3, key._4, key._5, key._6, key._7, key._8, key._9, key._0))
         self.key_handler = {
             key.LEFT: False,
             key.RIGHT: False,
@@ -59,6 +60,9 @@ class StartingLevel(engine.screen.Screen):
         if symbol in self.movement_keys:
             self.key_handler[symbol] = True
         self.player_wizard.key_press(symbol, modifiers)
+        
+        if symbol in self.animation_test_keys:
+            self.player_wizard.animation_test(symbol, modifiers)
 
     def on_key_release(self, symbol, modifiers):
         if symbol in self.movement_keys:
