@@ -56,6 +56,7 @@ class GameServer(Server):
     def SendPlayers(self):
         # don't send players that aren't fully initialized yet
         players = filter(lambda p: p.uuid not in ("", "(unk)"), self.players)
+        print("Broadcasting player list: %s" % (p.uuid for p in players))
         self.SendToAll({
             "action": "players",
             "players": [{
