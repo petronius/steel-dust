@@ -4,7 +4,7 @@ import uuid
 import pyglet
 from pyglet.window import key
 
-from PodSixNet.Connection import ConnectionListener, connection
+from PodSixNet.Connection import connection
 
 import pyshaders
 
@@ -129,16 +129,13 @@ class StartingLevel(engine.screen.Screen):
         if self.key_handler[key.DOWN]:
             new_y -= self.player_wizard._movespeed * dt
 
-        if self.player_wizard.x != new_x or self.player_wizard.y != new_y:
-            if self.connection_listener:
-                self.connection_listener.Send({
-                    "action": "position",
-                    "uuid": self.local_player_id,
-                    "position": (self.player_wizard.x, self.player_wizard.y),
-                })
+        if new_x != self.player_wizard.x or new_y != self.player_wizard.y:
+            self.player_wizard.update_position(x=new_x, y=new_y)
 
-        self.player_wizard.update(x=new_x, y=new_y)
+        self.player_wizard.update()
+        for w in self.enemy_wizards.values():
+            w.update()
+
         self.hud.update(dt)
 
-        if self.connection_listener:
-            self.connection_listener.update()
+        connection.Pump()

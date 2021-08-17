@@ -50,12 +50,19 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         if key == 57:
             self.image = self.animation_manager.start_new_anim("cast1")
 
-    def update(self, *args, **kwargs):
+    def update_position(self, x, y):
+        self.Send({
+            "action": "position",
+            "uuid": self.uuid,
+            "position": (self.x, self.y),
+        })
+        super(Wizard, self).update(x=x, y=y)
+
+    def update(self):
         self.animation_manager.update()
         if self.animation_manager.state == "idle" and self.animation_manager.expires_in <= 0:
             self.image = self.animation_manager.start_new_anim("idle")
 
-        super(Wizard, self).update(*args, **kwargs)
         if self.nameplate is not None:
             self.nameplate.x, self.nameplate.y = self.x, self.y
 
@@ -70,8 +77,7 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         uuid = data.get("uuid")
         if uuid == self.uuid:
             x, y = data.get("position")
-            self.update(x=x, y=y)
-
+            self.update_position(x=x, y=y)
 
 def random_wizard():
     return Wizard(random_name())
