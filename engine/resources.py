@@ -1,4 +1,5 @@
 import pyglet
+import engine.wizard.animationmanager
 
 pyglet.resource.path = ["resources"]
 pyglet.resource.reindex()
@@ -14,7 +15,20 @@ def center_image(image):
 def uncenter_image(image):
     image.anchor_x = 0
     image.anchor_y = 0
-    return image
+    return image    
+    
+# A Model is just a bundle of animations as defined in engine/resources.py
+class Model:
+    def __init__(self, animations):
+    # self.animations should be a dict of string:animation i.e., "walk":anim_purp_wiz_walk
+    # as found in engine.resources
+        self.animations = animations
+        
+    def get_anim(self, animation_name):
+        if animation_name in self.animations:
+            return (self.animations[animation_name], self.animations[animation_name].get_duration())
+        else:
+            return None, 0
 
 
 # IMAGES
@@ -38,7 +52,9 @@ purp_wiz_cast_2 = [pyglet.resource.image('wiz_cast_2_1.png'),
                    pyglet.resource.image('wiz_cast_2_2.png'),
                    pyglet.resource.image('wiz_cast_2_3.png'),
                    pyglet.resource.image('wiz_cast_2_4.png'),]
-anim_purp_wiz_stand = pyglet.image.Animation.from_image_sequence(purp_wiz_stand, duration=0.1, loop=True)
+anim_purp_wiz_stand = pyglet.image.Animation.from_image_sequence(purp_wiz_stand, duration=0.1, loop=False)
 anim_purp_wiz_cast_1 = pyglet.image.Animation.from_image_sequence(purp_wiz_cast_1, duration=0.2, loop = False)
 anim_purp_wiz_cast_2 = pyglet.image.Animation.from_image_sequence(purp_wiz_cast_2, duration=0.2, loop = False)
-anim_purp_wiz_walk = pyglet.image.Animation.from_image_sequence(purp_wiz_cast_1, duration=0.2, loop = True)
+anim_purp_wiz_walk = pyglet.image.Animation.from_image_sequence(purp_wiz_cast_1, duration=0.2, loop = False)
+
+model_purp_wiz = Model({"walk":anim_purp_wiz_walk,"idle":anim_purp_wiz_stand,"cast1":anim_purp_wiz_cast_1,"cast2":anim_purp_wiz_cast_2})

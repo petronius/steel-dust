@@ -18,15 +18,15 @@ class Wizard(pyglet.sprite.Sprite):
     ]
 
     def __init__(self, name, batch, *args, **kwargs):
-        default_image = engine.resources.wizard0
+        self.animation_manager = engine.wizard.animationmanager.AnimationManager(engine.resources.model_purp_wiz)
         self.nameplate = None
         self.spellbook = None
-        super(Wizard, self).__init__(default_image, *args, **kwargs)
-        self.update(scale=3.0)
+        super(Wizard, self).__init__(self.animation_manager.start_new_anim("idle"), *args, **kwargs)
         self._name = name
         self._hitpoints = 20
         self._mana = 100
         self._movespeed = 200
+        self.update(scale=3.0)
 
         self.nameplate = pyglet.text.Label(self.__str__(), font_name='Papyrus', anchor_x='center', anchor_y='top')
         self.spellbook = engine.spells.spellbook.Spellbook(self._spells, batch)
@@ -39,12 +39,22 @@ class Wizard(pyglet.sprite.Sprite):
     def __str__(self):
         return "The Wizard %s" % self._name
 
-    def key_press(self, key, modifiers):
+    def key_press(self, key, modifiers):        
         cast_spell = self.cast_manager.key_press(key, modifiers)
         if cast_spell:
             print("CASTING %s!" % cast_spell)
+            
+    def animation_test(self, key, modifiers):
+        if key == 57:
+            self.image = self.animation_manager.start_new_anim("cast1")
 
     def update(self, *args, **kwargs):
+        self.animation_manager.update()
+        print(self.animation_manager.state)
+        print(self.animation_manager.expires_in)
+        if self.animation_manager.state == "idle" and self.animation_manager.expires_in <= 0:
+            self.image = self.animation_manager.start_new_anim("idle")
+            
         super(Wizard, self).update(*args, **kwargs)
         if self.nameplate is not None:
             self.nameplate.x, self.nameplate.y = self.x, self.y
