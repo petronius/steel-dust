@@ -35,7 +35,6 @@ class StartingLevel(engine.screen.Screen):
         self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch, self.local_player_id)
         self.hud = engine.hud.HUD(self)
         self.movement_keys = {key.LEFT, key.RIGHT, key.UP, key.DOWN}
-        self.player_wizard.update(x=200, y=200)
         self.movement_keys = set((key.LEFT, key.RIGHT, key.UP, key.DOWN))
         self.animation_test_keys = set((key._1, key._2, key._3, key._4, key._5, key._6, key._7, key._8, key._9, key._0))
         self.key_handler = {
@@ -50,6 +49,7 @@ class StartingLevel(engine.screen.Screen):
 
         self.connection_listener = None
         self.connect_to_server(wizard_name)
+        self.player_wizard.update_position(x=200, y=200)
 
 #        try:
 #            self.shader = pyshaders.from_files_names("shaders/sprite_shader.vert", "shaders/sprite_shader.frag")
@@ -73,7 +73,7 @@ class StartingLevel(engine.screen.Screen):
         else:
             w = engine.wizard.Wizard(event_data.get("name"), self.batch, event_data.get("uuid"))
             w.x, w.y = event_data.get("position")
-            w.update(x=w.x, y=w.y)
+            w.update_position(x=w.x, y=w.y)
             self.enemy_wizards[event_data.get("uuid")] = w
 
     def update_players(self, data):
