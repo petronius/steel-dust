@@ -21,7 +21,7 @@ class ClientChannel(Channel):
     def Network_playerconnect(self, data):
         self.handle = data.get("name", "(unk)")
         self.uuid = data.get("uuid", "(unk)")
-        print("New player connection: %s" % data)
+        print("Channel initialized for player: %s" % data)
 
 
 class GameServer(Server):
@@ -36,6 +36,7 @@ class GameServer(Server):
     def Connected(self, channel, addr):
         self.AddPlayer(channel)
         logging.info("connected: %s" % str(addr))
+        self.SendPlayers()
 
     def AddPlayer(self, player):
         print("New Player %s (%s)" % (player, str(player.addr)))
