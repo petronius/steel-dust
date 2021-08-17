@@ -67,6 +67,7 @@ class GameServer(Server):
         })
 
     def SendToAll(self, data):
+        print("wall", data)
         for p in self.players:
             p.Send(data)
 
