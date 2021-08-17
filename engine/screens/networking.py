@@ -1,5 +1,5 @@
 
-from PodSixNet.Connection import ConnectionListener
+from PodSixNet.Connection import ConnectionListener, connection
 
 
 class ClientConnectionListener(ConnectionListener):

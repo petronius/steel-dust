@@ -48,7 +48,7 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
 
     def animation_test(self, key, modifiers):
         if key == 57:
-            self.image = self.animation_manager.start_new_anim("cast1")
+            self.image = self.animation_manager.trigger_anim("cast1")
 
     def update_position(self, x, y):
         self.set_position(x, y)
@@ -87,6 +87,7 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
     def Network_animation(self, data):
         uuid = data.get("uuid")
         if uuid == self.uuid:
+            print("network anumatio")
             self.animation_manager.start_new_anim(data.get("state"))
 
 
