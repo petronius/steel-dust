@@ -10,6 +10,10 @@ books = [
     "Scroll",
     "Dictionary",
     "Compendium",
+    "Manuscript",
+    "Manual",
+    "Chronicle",
+    "Folio",
 ]
 
 schools = [
@@ -32,6 +36,13 @@ schools = [
     "Wisdom",
     "Secrets",
     "Chaos",
+    "Witchcraft",
+    "Necromancy",
+    "Slutty Magic",
+    "the Occult",
+    "Enchantment",
+    "Binding",
+    "Incantation",
 ]
 
 if __name__ == "__main__":

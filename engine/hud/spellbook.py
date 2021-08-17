@@ -4,13 +4,17 @@ import pyglet
 
 import engine.hud.booklist
 
+
+def random_spellbook():
+    return choice(engine.hud.booklist.books) + " of " + choice(engine.hud.booklist.schools)
+
 class Spellbook:
 
     def __init__(self, spells, batch, bg_group, fg_group):
         self.spell_labels = []
         self.casting_labels = {}
         self.cam_x, self.cam_y = 0, 0
-        self.name = choice(engine.hud.booklist.books) + " of " + choice(engine.hud.booklist.schools)
+        self.name = random_spellbook()
         num_spells = len(spells)
         for i, s in enumerate(spells):
             x = 10
@@ -21,7 +25,7 @@ class Spellbook:
         for i, s in enumerate(spells):
             x = 10
             y = 10 + 30 * i
-            self.casting_labels[s.casting_combo] = (pyglet.text.Label("", font_name="Arial", color=(255, 0, 0, 255), font_size=14, x=x, y=y, batch=batch, group=fg_group))
+            self.casting_labels[s.casting_combo] = (pyglet.text.Label("", font_name="Algerian", color=(255, 0, 0, 255), font_size=14, x=x, y=y, batch=batch, group=fg_group))
 
     @property
     def spell_pos_x(self):
