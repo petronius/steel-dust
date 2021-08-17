@@ -16,9 +16,12 @@ class AnimationManager:
 
     # Calling this function returns a new animation, and reset the time until the animation
     # manager returns to the "idle" state
+    def trigger_anim(self, state):
+        self.broadcast_anim(state)
+        return self.start_new_anim(state)
+
     def start_new_anim(self, state):
         self.state = state
-        self.broadcast_anim(state)
         anim, time = self.model.get_anim(self.state)
         if anim == None:
             anim = self.model.get_anim("idle")
@@ -26,6 +29,8 @@ class AnimationManager:
         return anim
 
     def broadcast_anim(self, state):
+        if state == "idle":
+            return
         try:
             connection.Send({
                 "action": "animation",
