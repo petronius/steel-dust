@@ -12,6 +12,7 @@ import engine.screen
 import engine.resources
 import engine.settings
 import engine.wizard
+import engine.hud
 from engine.screens.networking import ClientConnectionListener
 
 
@@ -26,11 +27,14 @@ class StartingLevel(engine.screen.Screen):
 
         self.map_width, self.map_height = engine.settings.MAP_WIDTH, engine.settings.MAP_HEIGHT
 
+        self.hudground = pyglet.graphics.OrderedGroup(2)
         self.foreground = pyglet.graphics.OrderedGroup(1)
         self.background = pyglet.graphics.OrderedGroup(0)
         self.batch = pyglet.graphics.Batch()
 
         self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch)
+        self.hud = engine.hud.HUD(self)
+        self.movement_keys = {key.LEFT, key.RIGHT, key.UP, key.DOWN}
         self.player_wizard.update(x=200, y=200)
         self.movement_keys = set((key.LEFT, key.RIGHT, key.UP, key.DOWN))
         self.animation_test_keys = set((key._1, key._2, key._3, key._4, key._5, key._6, key._7, key._8, key._9, key._0))
@@ -78,7 +82,7 @@ class StartingLevel(engine.screen.Screen):
         # disconnected.
         for uuid in self.enemy_wizards:
             if uuid not in uuids:
-                self.player_disconnect(uuids.get(uuid))
+                self.player_disconnect(self.enemy_wizards.get(uuid))
         # Check for uuids that the server has sent us, but are not in the enemy wizard list yet: those are new
         # connections
         for uuid in uuids:
@@ -139,7 +143,8 @@ class StartingLevel(engine.screen.Screen):
                     "uuid": self.local_player_id,
                     "position": (self.player_wizard.x, self.player_wizard.y),
                 })
-            self.player_wizard.update(x=new_x, y=new_y)
+        self.player_wizard.update(x=new_x, y=new_y)
+        self.hud.update(dt)
 
         if self.connection_listener:
             self.connection_listener.update()

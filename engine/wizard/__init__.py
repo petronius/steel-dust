@@ -5,7 +5,7 @@ import pyglet
 import engine.wizard.namelist
 import engine.wizard.castmanager
 import engine.spells
-import engine.spells.spellbook
+import engine.hud.spellbook
 import engine.resources
 
 
@@ -20,7 +20,6 @@ class Wizard(pyglet.sprite.Sprite):
     def __init__(self, name, batch, *args, **kwargs):
         self.animation_manager = engine.wizard.animationmanager.AnimationManager(engine.resources.model_purp_wiz)
         self.nameplate = None
-        self.spellbook = None
         super(Wizard, self).__init__(self.animation_manager.start_new_anim("idle"), *args, **kwargs)
         self._name = name
         self._hitpoints = 20
@@ -29,12 +28,11 @@ class Wizard(pyglet.sprite.Sprite):
         self.update(scale=3.0)
 
         self.nameplate = pyglet.text.Label(self.__str__(), font_name='Papyrus', anchor_x='center', anchor_y='top')
-        self.spellbook = engine.spells.spellbook.Spellbook(self._spells, batch)
 
         self.batch = batch
         self.nameplate.batch = batch
 
-        self.cast_manager = engine.wizard.castmanager.CastManager(self._spells, self.spellbook)
+        self.cast_manager = engine.wizard.castmanager.CastManager(self._spells)
 
     def __str__(self):
         return "The Wizard %s" % self._name
@@ -42,7 +40,6 @@ class Wizard(pyglet.sprite.Sprite):
     def key_press(self, key, modifiers):        
         cast_spell = self.cast_manager.key_press(key, modifiers)
         if cast_spell:
-            self.spellbook.casting_labels[cast_spell.casting_combo].text = ""
             print("CASTING %s!" % cast_spell)
             
     def animation_test(self, key, modifiers):
@@ -59,8 +56,6 @@ class Wizard(pyglet.sprite.Sprite):
         super(Wizard, self).update(*args, **kwargs)
         if self.nameplate is not None:
             self.nameplate.x, self.nameplate.y = self.x, self.y
-#        if self.spellbook is not None:
-#            self.spellbook.position_update(self.position)
 
 
 def random_wizard():
