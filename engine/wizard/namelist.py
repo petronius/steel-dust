@@ -262,7 +262,7 @@ colors = [
     "Brick",
     "Brass",
     "Carnation",
-    "Lavender"
+    "Lavender",
     "Cerise",
     "Navy",
     "Turqoise",
