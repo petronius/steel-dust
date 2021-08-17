@@ -34,6 +34,7 @@ class Model:
 # IMAGES
 # backgrounds
 title = pyglet.resource.image("title.png")
+stone_floor = pyglet.resource.image("gray_stone.png")
 
 # wizards
 wizard0 = pyglet.resource.animation("wizard0.gif")

@@ -3,6 +3,7 @@ import uuid
 
 import pyglet
 from pyglet.window import key
+from pyglet.gl import *
 
 from PodSixNet.Connection import ConnectionListener, connection
 
@@ -30,6 +31,7 @@ class StartingLevel(engine.screen.Screen):
         self.hudground = pyglet.graphics.OrderedGroup(2)
         self.foreground = pyglet.graphics.OrderedGroup(1)
         self.background = pyglet.graphics.OrderedGroup(0)
+        self.bg_batch = pyglet.graphics.Batch()
         self.batch = pyglet.graphics.Batch()
 
         self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch, self.local_player_id)
@@ -50,6 +52,8 @@ class StartingLevel(engine.screen.Screen):
 
         self.connection_listener = None
         self.connect_to_server(wizard_name)
+
+        self.floor_texture = pyglet.image.TileableTexture.create_for_image(engine.resources.stone_floor)
 
 #        try:
 #            self.shader = pyshaders.from_files_names("shaders/sprite_shader.vert", "shaders/sprite_shader.frag")
@@ -112,6 +116,7 @@ class StartingLevel(engine.screen.Screen):
         super(StartingLevel, self).on_draw()
 #        self.shader.use()
         self.game.window.clear()
+#        self.floor_texture.blit_tiled(0, 0, 0, engine.settings.MAP_WIDTH, engine.settings.MAP_HEIGHT)
         self.batch.draw()
 #        pyshaders.ShaderProgram.clear()
 

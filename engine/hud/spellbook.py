@@ -8,6 +8,7 @@ import engine.hud.booklist
 def random_spellbook():
     return choice(engine.hud.booklist.books) + " of " + choice(engine.hud.booklist.schools)
 
+
 class Spellbook:
 
     def __init__(self, spells, batch, bg_group, fg_group):
