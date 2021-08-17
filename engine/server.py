@@ -13,6 +13,7 @@ class ClientChannel(Channel):
     def __init__(self, *args, **kwargs):
         self.name = "anonymous"
         self.uuid = ""
+        self.position = (0, 0)
         Channel.__init__(self, *args, **kwargs)
 
     def Close(self):
@@ -21,8 +22,12 @@ class ClientChannel(Channel):
     def Network_playerconnect(self, data):
         self.name = data.get("name", "(unk)")
         self.uuid = data.get("uuid", "(unk)")
-        print("Channel initialized for player: %s" % data)
+        self.position = data.get("position", (200, 200))
         self._server.SendPlayers()
+
+    def Network_position(self, data):
+        self.position = data.get("position")
+        self._server.SendToOthers(self, data)
 
 
 class GameServer(Server):
@@ -36,11 +41,9 @@ class GameServer(Server):
 
     def Connected(self, channel, addr):
         self.AddPlayer(channel)
-        logging.info("connected: %s" % str(addr))
-        self.SendPlayers()
+        logging.info("connected: %s (waiting for player initialization)" % str(addr))
 
     def AddPlayer(self, player):
-        print("New Player %s (%s)" % (player, str(player.addr)))
         self.players[player] = True
         logging.info("players", [p for p in self.players])
 
@@ -50,16 +53,25 @@ class GameServer(Server):
         self.SendPlayers()
 
     def SendPlayers(self):
+        # don't send players that aren't fully initialized yet
+        players = filter(lambda p: p.uuid not in ("", "(unk)"), self.players)
         self.SendToAll({
             "action": "players",
             "players": [{
                 "name": p.name,
                 "uuid": p.uuid,
-            } for p in self.players]
+                "position": p.position,
+            } for p in players]
         })
 
     def SendToAll(self, data):
-        [p.Send(data) for p in self.players]
+        for p in self.players:
+            p.Send(data)
+
+    def SendToOthers(self, sender, data):
+        for p in self.players:
+            if p.uuid != sender.uuid:
+                p.Send(data)
 
     def Launch(self):
         while True:
