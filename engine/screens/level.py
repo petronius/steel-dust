@@ -66,6 +66,12 @@ class StartingLevel(engine.screen.Screen):
             w = engine.wizard.Wizard(event_data.get("name"), self.batch)
             self.enemy_wizards[event_data.get("uuid")] = w
 
+    def update_players(self, data):
+        uuids = {p.get("uuid"): p for p in data}
+        for uuid in self.enemy_wizards:
+            if uuid not in uuids:
+                self.player_disconnect(uuids.get(uuid))
+
     def player_disconnect(self, event_data):
         self.enemy_wizards[event_data.get("uuid")].batch = None
         del self.enemy_wizards[event_data.get("uuid")]

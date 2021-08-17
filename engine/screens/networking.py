@@ -15,6 +15,7 @@ class ClientConnectionListener(ConnectionListener):
 
     def Network_players(self, data):
         print("*** players: " + ", ".join([p for p in data['players']]))
+        self.level.update_players(data)
 
     def Network_message(self, data):
         print(data['who'] + ": " + data['message'])

@@ -11,7 +11,7 @@ from PodSixNet.Channel import Channel
 class ClientChannel(Channel):
 
     def __init__(self, *args, **kwargs):
-        self.handle = "anonymous"
+        self.name = "anonymous"
         self.uuid = ""
         Channel.__init__(self, *args, **kwargs)
 
@@ -19,9 +19,10 @@ class ClientChannel(Channel):
         self._server.DelPlayer(self)
 
     def Network_playerconnect(self, data):
-        self.handle = data.get("name", "(unk)")
+        self.name = data.get("name", "(unk)")
         self.uuid = data.get("uuid", "(unk)")
         print("Channel initialized for player: %s" % data)
+        self._server.SendPlayers()
 
 
 class GameServer(Server):
@@ -41,7 +42,6 @@ class GameServer(Server):
     def AddPlayer(self, player):
         print("New Player %s (%s)" % (player, str(player.addr)))
         self.players[player] = True
-        self.SendPlayers()
         logging.info("players", [p for p in self.players])
 
     def DelPlayer(self, player):
@@ -52,7 +52,10 @@ class GameServer(Server):
     def SendPlayers(self):
         self.SendToAll({
             "action": "players",
-            "players": [p.handle for p in self.players]
+            "players": [{
+                "name": p.name,
+                "uuid": p.uuid,
+            } for p in self.players]
         })
 
     def SendToAll(self, data):
