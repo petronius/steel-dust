@@ -88,6 +88,7 @@ class StartingLevel(engine.screen.Screen):
         del self.enemy_wizards[event_data.get("uuid")]
 
     def player_position(self, event_data):
+        print("position update:", event_data)
         w = self.enemy_wizards.get(event_data.get("uuid"))
         if w and w.get("position"):
             w.x, w.y = event_data.get("position")

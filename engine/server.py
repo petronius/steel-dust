@@ -26,6 +26,10 @@ class ClientChannel(Channel):
         print("Channel initialized for player: %s" % data)
         self._server.SendPlayers()
 
+    def Network_position(self, data):
+        print("%s position update being broadcast: %s" % (self.uuid, self.position))
+        self._server.SendToOthers(self, data)
+
 
 class GameServer(Server):
 
@@ -63,7 +67,13 @@ class GameServer(Server):
         })
 
     def SendToAll(self, data):
-        [p.Send(data) for p in self.players]
+        for p in self.players:
+            p.Send(data)
+
+    def SendToOthers(self, sender, data):
+        for p in self.players:
+            if p.uuid != sender.uuid:
+                p.Send(data)
 
     def Launch(self):
         while True:
