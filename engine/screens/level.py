@@ -63,7 +63,7 @@ class StartingLevel(engine.screen.Screen):
         })
 
     def player_connect(self, event_data):
-        if uuid == self.local_player_id:
+        if event_data.get("uuid") == self.local_player_id:
             pass
         else:
             w = engine.wizard.Wizard(event_data.get("name"), self.batch)

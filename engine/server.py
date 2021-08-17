@@ -38,8 +38,7 @@ class GameServer(Server):
 
     def Connected(self, channel, addr):
         self.AddPlayer(channel)
-        logging.info("connected: %s" % str(addr))
-        self.SendPlayers()
+        logging.info("connected: %s (waiting for player initialization)" % str(addr))
 
     def AddPlayer(self, player):
         print("New Player %s (%s)" % (player, str(player.addr)))
@@ -52,13 +51,15 @@ class GameServer(Server):
         self.SendPlayers()
 
     def SendPlayers(self):
+        # don't send players that aren't fully initialized yet
+        players = filter(lambda p: p.uuid not in ("", "(unk)"), self.players)
         self.SendToAll({
             "action": "players",
             "players": [{
                 "name": p.name,
                 "uuid": p.uuid,
                 "position": p.position,
-            } for p in self.players]
+            } for p in players]
         })
 
     def SendToAll(self, data):
