@@ -138,4 +138,6 @@ class StartingLevel(engine.screen.Screen):
 
         self.hud.update(dt)
 
+        if self.connection_listener:
+            self.connection_listener.Pump()
         connection.Pump()
