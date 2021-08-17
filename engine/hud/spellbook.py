@@ -16,7 +16,7 @@ class Spellbook:
             x = 10
             y = 10 + 30 * i
             self.spell_labels.append(pyglet.text.Label(s.casting_combo, font_name="Algerian", font_size=14, x=x, y=y, batch=batch, group=bg_group))
-        self.spell_labels.append(pyglet.text.Label(self.name, font_name="Papyrus", font_size=20, x=10, y=num_spells*50, batch=batch, group=bg_group))
+        self.spell_labels.append(pyglet.text.Label(self.name, font_name="Algerian", font_size=20, x=10, y=num_spells*50, batch=batch, group=bg_group))
 
         for i, s in enumerate(spells):
             x = 10
