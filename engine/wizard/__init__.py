@@ -51,12 +51,15 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
             self.image = self.animation_manager.start_new_anim("cast1")
 
     def update_position(self, x, y):
-        super(Wizard, self).update(x=x, y=y)
+        self.set_position(x, y)
         connection.Send({
             "action": "position",
             "uuid": self.uuid,
             "position": (self.x, self.y),
         })
+
+    def set_position(self, x, y):
+        super(Wizard, self).update(x=x, y=y)
 
     def update(self):
         self.animation_manager.update()
@@ -77,8 +80,7 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         uuid = data.get("uuid")
         if uuid == self.uuid:
             x, y = data.get("position")
-            # don't call update_position(), because no need to resend it to the network
-            super(Wizard, self).update(x=x, y=y)
+            self.set_position(x=x, y=y)
 
 
 def random_name():

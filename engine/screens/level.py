@@ -48,8 +48,8 @@ class StartingLevel(engine.screen.Screen):
         self.enemy_wizards = {}
 
         self.connection_listener = None
+        self.player_wizard.set_position(x=200, y=200)
         self.connect_to_server(wizard_name)
-        self.player_wizard.update_position(x=200, y=200)
 
 #        try:
 #            self.shader = pyshaders.from_files_names("shaders/sprite_shader.vert", "shaders/sprite_shader.frag")
@@ -73,7 +73,7 @@ class StartingLevel(engine.screen.Screen):
         else:
             w = engine.wizard.Wizard(event_data.get("name"), self.batch, event_data.get("uuid"))
             w.x, w.y = event_data.get("position")
-            w.update_position(x=w.x, y=w.y)
+            w.set_position(x=w.x, y=w.y)
             self.enemy_wizards[event_data.get("uuid")] = w
 
     def update_players(self, data):

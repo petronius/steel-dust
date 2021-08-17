@@ -29,7 +29,3 @@ class ClientConnectionListener(ConnectionListener):
         print('Server disconnected:', data)
         connection.Close()
         raise RuntimeError("Connection failed!")
-
-    def Network_playerconnect(self, data):
-        print("New player has joined:", data)
-        self.level.player_connect(data)
