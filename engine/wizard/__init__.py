@@ -87,8 +87,8 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
     def Network_animation(self, data):
         uuid = data.get("uuid")
         if uuid == self.uuid:
-            print("network anumatio")
-            self.animation_manager.start_new_anim(data.get("state"))
+            print("network animation: %s" % data)
+            self.image = self.animation_manager.start_new_anim(data.get("state"))
 
 
 def random_name():

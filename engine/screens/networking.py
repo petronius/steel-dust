@@ -11,7 +11,8 @@ class ClientConnectionListener(ConnectionListener):
         print("Client connection initiated")
 
     def Network(self, data):
-        print("Network:", data)
+        pass
+        #print("Network:", data)
 
     def Network_players(self, data):
         print("*** players: %s" % data)

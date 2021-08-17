@@ -42,7 +42,9 @@ class AnimationManager:
 
     def update(self):
         if self.expires_in > 0:
-            print(f"FPS is {clock.get_fps()}")
+            #print(f"FPS is {clock.get_fps()}")
             self.expires_in -= engine.settings.FRAMERATE
-        if self.expires_in <= 0:
+        elif self.expires_in <= 0:
             self.state = "idle"
+
+
