@@ -28,6 +28,7 @@ class ClientChannel(Channel):
 
     def Network_position(self, data):
         print("%s position update being broadcast: %s" % (self.uuid, self.position))
+        self.position = data.get("position")
         self._server.SendToOthers(self, data)
 
 

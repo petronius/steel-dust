@@ -31,7 +31,7 @@ class StartingLevel(engine.screen.Screen):
         self.batch = pyglet.graphics.Batch()
 
         self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch)
-        self.player_wizard.x, self.player_wizard.y = 200, 200
+        self.player_wizard.update(x=200, y=200)
         self.movement_keys = set((key.LEFT, key.RIGHT, key.UP, key.DOWN))
         self.key_handler = {
             key.LEFT: False,
