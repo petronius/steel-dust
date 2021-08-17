@@ -3,12 +3,23 @@ from random import choice
 import pyglet
 from pyglet.window import key
 
+from PodSixNet.Connection import ConnectionListener, connection
+
 import pyshaders
 
 import engine.screen
 import engine.resources
 import engine.settings
 import engine.wizard
+
+
+class LevelListener(ConnectionListener):
+    def __init__(self):
+        self.Connect()
+
+    def update(self):
+        connection.Pump()
+        self.Pump()
 
 
 class StartingLevel(engine.screen.Screen):
@@ -21,6 +32,7 @@ class StartingLevel(engine.screen.Screen):
         self.batch = pyglet.graphics.Batch()
         self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch)
         self.key_handler = pyglet.window.key.KeyStateHandler()
+        self.level_listener = LevelListener()
         pyglet.clock.schedule_interval(self.update, engine.settings.FRAMERATE)
 
         try:
@@ -58,3 +70,5 @@ class StartingLevel(engine.screen.Screen):
         if self.key_handler[key.DOWN]:
             new_y -= self.player_wizard._movespeed * dt
         self.player_wizard.update(x=new_x, y=new_y)
+
+        self.level_listener.update()
