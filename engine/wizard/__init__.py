@@ -22,7 +22,7 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         self.uuid = uuid
         self.nameplate = None
 
-        self.animation_manager = engine.wizard.animationmanager.AnimationManager(self, engine.resources.model_purp_wiz)
+        self.animation_manager = engine.wizard.animationmanager.AnimationManager(self, engine.resources.model_purple_wiz)
         super(Wizard, self).__init__(self.animation_manager.start_new_anim("idle"), *args, **kwargs)
 
         self._name = name
