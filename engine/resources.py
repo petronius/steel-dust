@@ -41,6 +41,11 @@ stone_floor = pyglet.resource.image("gray_stone.png")
 wizard_spritesheet = pyglet.resource.image("wizards_spritesheet.png")
 image_grid = pyglet.image.ImageGrid(wizard_spritesheet, 16, 16)
 
+DEFAULT_ANIMATION_DURATION = 0.2
+DEFAULT_DEATH_ANIM_DURATION = 0.4
+DEFAULT_BIRTH_ANIM_DURATION = 0.3
+
+
 # Animation and model definitions
 # Purple wizard
 purple_wiz_idle = (
@@ -103,21 +108,21 @@ purple_wiz_death = (
     image_grid[(13,15)])
 
 anim_purple_wiz_idle = pyglet.image.Animation.from_image_sequence(
-    purple_wiz_idle, duration=0.1, loop=True)
+    purple_wiz_idle, duration=DEFAULT_ANIMATION_DURATION, loop=True)
 anim_purple_wiz_cast_1 = pyglet.image.Animation.from_image_sequence(
-    purple_wiz_cast_1, duration=0.2, loop = False)
+    purple_wiz_cast_1, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_purple_wiz_cast_2 = pyglet.image.Animation.from_image_sequence(
-    purple_wiz_cast_2, duration=0.2, loop = False)
+    purple_wiz_cast_2, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_purple_wiz_cast_3 = pyglet.image.Animation.from_image_sequence(
-    purple_wiz_cast_3, duration=0.2, loop = False)
+    purple_wiz_cast_3, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_purple_wiz_walk = pyglet.image.Animation.from_image_sequence(
-    purple_wiz_walk, duration=0.2, loop = False)
+    purple_wiz_walk, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_purple_wiz_hit = pyglet.image.Animation.from_image_sequence(
-    purple_wiz_hit, duration=0.2, loop = False)
+    purple_wiz_hit, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_purple_wiz_birth = pyglet.image.Animation.from_image_sequence(
-    purple_wiz_birth, duration=0.2, loop = False)
+    purple_wiz_birth, duration=DEFAULT_BIRTH_ANIM_DURATION, loop = False)
 anim_purple_wiz_death = pyglet.image.Animation.from_image_sequence(
-    purple_wiz_death, duration=0.2, loop = False)
+    purple_wiz_death, duration=DEFAULT_DEATH_ANIM_DURATION, loop = False)
 
 model_purple_wiz = Model(
     {"walk":anim_purple_wiz_walk,
@@ -190,21 +195,21 @@ green_wiz_death = (
     image_grid[(10,15)])
 
 anim_green_wiz_idle = pyglet.image.Animation.from_image_sequence(
-    green_wiz_idle, duration=0.1, loop=True)
+    green_wiz_idle, duration=DEFAULT_ANIMATION_DURATION, loop=True)
 anim_green_wiz_cast_1 = pyglet.image.Animation.from_image_sequence(
-    green_wiz_cast_1, duration=0.2, loop = False)
+    green_wiz_cast_1, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_green_wiz_cast_2 = pyglet.image.Animation.from_image_sequence(
-    green_wiz_cast_2, duration=0.2, loop = False)
+    green_wiz_cast_2, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_green_wiz_cast_3 = pyglet.image.Animation.from_image_sequence(
-    green_wiz_cast_3, duration=0.2, loop = False)
+    green_wiz_cast_3, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_green_wiz_walk = pyglet.image.Animation.from_image_sequence(
-    green_wiz_walk, duration=0.2, loop = False)
+    green_wiz_walk, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_green_wiz_hit = pyglet.image.Animation.from_image_sequence(
-    green_wiz_hit, duration=0.2, loop = False)
+    green_wiz_hit, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_green_wiz_birth = pyglet.image.Animation.from_image_sequence(
-    green_wiz_birth, duration=0.2, loop = False)
+    green_wiz_birth, duration=DEFAULT_BIRTH_ANIM_DURATION, loop = False)
 anim_green_wiz_death = pyglet.image.Animation.from_image_sequence(
-    green_wiz_death, duration=0.2, loop = False)
+    green_wiz_death, duration=DEFAULT_DEATH_ANIM_DURATION, loop = False)
 
 model_green_wiz = Model(
     {"walk":anim_green_wiz_walk,
@@ -277,21 +282,21 @@ blue_wiz_death = (
     image_grid[(7,15)])
 
 anim_blue_wiz_idle = pyglet.image.Animation.from_image_sequence(
-    blue_wiz_idle, duration=0.1, loop=True)
+    blue_wiz_idle, duration=DEFAULT_ANIMATION_DURATION, loop=True)
 anim_blue_wiz_cast_1 = pyglet.image.Animation.from_image_sequence(
-    blue_wiz_cast_1, duration=0.2, loop = False)
+    blue_wiz_cast_1, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_blue_wiz_cast_2 = pyglet.image.Animation.from_image_sequence(
-    blue_wiz_cast_2, duration=0.2, loop = False)
+    blue_wiz_cast_2, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_blue_wiz_cast_3 = pyglet.image.Animation.from_image_sequence(
-    blue_wiz_cast_3, duration=0.2, loop = False)
+    blue_wiz_cast_3, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_blue_wiz_walk = pyglet.image.Animation.from_image_sequence(
-    blue_wiz_walk, duration=0.2, loop = False)
+    blue_wiz_walk, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_blue_wiz_hit = pyglet.image.Animation.from_image_sequence(
-    blue_wiz_hit, duration=0.2, loop = False)
+    blue_wiz_hit, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_blue_wiz_birth = pyglet.image.Animation.from_image_sequence(
-    blue_wiz_birth, duration=0.2, loop = False)
+    blue_wiz_birth, duration=DEFAULT_BIRTH_ANIM_DURATION, loop = False)
 anim_blue_wiz_death = pyglet.image.Animation.from_image_sequence(
-    blue_wiz_death, duration=0.2, loop = False)
+    blue_wiz_death, duration=DEFAULT_DEATH_ANIM_DURATION, loop = False)
 
 model_blue_wiz = Model(
     {"walk":anim_blue_wiz_walk,
@@ -364,21 +369,21 @@ yellow_wiz_death = (
     image_grid[(4,15)])
 
 anim_yellow_wiz_idle = pyglet.image.Animation.from_image_sequence(
-    yellow_wiz_idle, duration=0.1, loop=True)
+    yellow_wiz_idle, duration=DEFAULT_ANIMATION_DURATION, loop=True)
 anim_yellow_wiz_cast_1 = pyglet.image.Animation.from_image_sequence(
-    yellow_wiz_cast_1, duration=0.2, loop = False)
+    yellow_wiz_cast_1, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_yellow_wiz_cast_2 = pyglet.image.Animation.from_image_sequence(
-    yellow_wiz_cast_2, duration=0.2, loop = False)
+    yellow_wiz_cast_2, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_yellow_wiz_cast_3 = pyglet.image.Animation.from_image_sequence(
-    yellow_wiz_cast_3, duration=0.2, loop = False)
+    yellow_wiz_cast_3, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_yellow_wiz_walk = pyglet.image.Animation.from_image_sequence(
-    yellow_wiz_walk, duration=0.2, loop = False)
+    yellow_wiz_walk, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_yellow_wiz_hit = pyglet.image.Animation.from_image_sequence(
-    yellow_wiz_hit, duration=0.2, loop = False)
+    yellow_wiz_hit, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_yellow_wiz_birth = pyglet.image.Animation.from_image_sequence(
-    yellow_wiz_birth, duration=0.2, loop = False)
+    yellow_wiz_birth, duration=DEFAULT_BIRTH_ANIM_DURATION, loop = False)
 anim_yellow_wiz_death = pyglet.image.Animation.from_image_sequence(
-    yellow_wiz_death, duration=0.2, loop = False)
+    yellow_wiz_death, duration=DEFAULT_DEATH_ANIM_DURATION, loop = False)
 
 model_yellow_wiz = Model(
     {"walk":anim_yellow_wiz_walk,
@@ -454,21 +459,21 @@ red_wiz_death = (
     image_grid[0,2],)
 
 anim_red_wiz_idle = pyglet.image.Animation.from_image_sequence(
-    red_wiz_idle, duration=0.1, loop=True)
+    red_wiz_idle, duration=DEFAULT_ANIMATION_DURATION, loop=True)
 anim_red_wiz_cast_1 = pyglet.image.Animation.from_image_sequence(
-    red_wiz_cast_1, duration=0.2, loop = False)
+    red_wiz_cast_1, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_red_wiz_cast_2 = pyglet.image.Animation.from_image_sequence(
-    red_wiz_cast_2, duration=0.2, loop = False)
+    red_wiz_cast_2, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_red_wiz_cast_3 = pyglet.image.Animation.from_image_sequence(
-    red_wiz_cast_3, duration=0.2, loop = False)
+    red_wiz_cast_3, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_red_wiz_walk = pyglet.image.Animation.from_image_sequence(
-    red_wiz_walk, duration=0.2, loop = False)
+    red_wiz_walk, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_red_wiz_hit = pyglet.image.Animation.from_image_sequence(
-    red_wiz_hit, duration=0.2, loop = False)
+    red_wiz_hit, duration=DEFAULT_ANIMATION_DURATION, loop = False)
 anim_red_wiz_birth = pyglet.image.Animation.from_image_sequence(
-    red_wiz_birth, duration=0.2, loop = False)
+    red_wiz_birth, duration=DEFAULT_BIRTH_ANIM_DURATION, loop = False)
 anim_red_wiz_death = pyglet.image.Animation.from_image_sequence(
-    red_wiz_death, duration=0.2, loop = False)
+    red_wiz_death, duration=DEFAULT_DEATH_ANIM_DURATION, loop = False)
 
 model_red_wiz = Model(
     {"walk":anim_red_wiz_walk,
