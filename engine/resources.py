@@ -41,9 +41,10 @@ stone_floor = pyglet.resource.image("gray_stone.png")
 wizard_spritesheet = pyglet.resource.image("wizards_spritesheet.png")
 image_grid = pyglet.image.ImageGrid(wizard_spritesheet, 16, 16)
 
+# default duration of each frame in animations
 DEFAULT_ANIMATION_DURATION = 0.2
-DEFAULT_DEATH_ANIM_DURATION = 0.4
-DEFAULT_BIRTH_ANIM_DURATION = 0.3
+DEFAULT_DEATH_ANIM_DURATION = 0.2
+DEFAULT_BIRTH_ANIM_DURATION = 0.2
 
 
 # Animation and model definitions
@@ -484,8 +485,99 @@ model_red_wiz = Model(
     "birth":anim_red_wiz_birth,
     "death":anim_red_wiz_death,
     "hit":anim_red_wiz_hit})
+    
+# Gray Wizard
 
-wizard_models=(model_purple_wiz, model_green_wiz, model_blue_wiz, model_yellow_wiz, model_red_wiz)
+wizard_spritesheet = pyglet.resource.image("wizards_spritesheet_annex.png")
+image_grid = pyglet.image.ImageGrid(wizard_spritesheet, 16, 16)
+
+gray_wiz_idle = (
+    image_grid[(15,0)],
+    image_grid[(15,1)],
+    image_grid[(15,2)],
+    image_grid[(15,3)],
+   )
+gray_wiz_cast_1 = (
+    image_grid[(15,4)],
+    image_grid[(15,5)],
+    image_grid[(15,6)],
+    image_grid[(15,7)],
+    image_grid[(15,8)],
+    image_grid[(15,9)],
+    image_grid[(15,10)])
+gray_wiz_cast_2 = (
+    image_grid[(15,11)],
+    image_grid[(15,12)],
+    image_grid[(15,13)],
+    image_grid[(15,14)],
+    image_grid[(15,14)])
+gray_wiz_walk = (
+    image_grid[(14,0)],
+    image_grid[(14,1)])
+gray_wiz_hit = (
+    image_grid[(14,2)],
+    image_grid[(15,0)])
+gray_wiz_cast_3 = (
+    image_grid[(14,3)],
+    image_grid[(14,4)],
+    image_grid[(14,5)],
+    image_grid[(14,6)])
+gray_wiz_birth = (
+    image_grid[(14,7)],
+    image_grid[(14,8)],
+    image_grid[(14,9)],
+    image_grid[(14,10)],
+    image_grid[(14,11)],
+    image_grid[(14,12)],
+    image_grid[(14,13)],
+    image_grid[(14,14)],
+    image_grid[(14,15)],
+    image_grid[(13,0)])
+gray_wiz_death = (
+    image_grid[(13,1)],
+    image_grid[(13,2)],
+    image_grid[(13,3)],
+    image_grid[(13,4)],
+    image_grid[(13,5)],
+    image_grid[(13,6)],
+    image_grid[(13,7)],
+    image_grid[(13,8)],
+    image_grid[(13,9)],
+    image_grid[(13,10)],
+    image_grid[(13,11)],
+    image_grid[(13,12)],
+    image_grid[(13,13)],
+    image_grid[(13,14)],
+    image_grid[(13,15)])
+
+anim_gray_wiz_idle = pyglet.image.Animation.from_image_sequence(
+    gray_wiz_idle, duration=DEFAULT_ANIMATION_DURATION, loop=True)
+anim_gray_wiz_cast_1 = pyglet.image.Animation.from_image_sequence(
+    gray_wiz_cast_1, duration=DEFAULT_ANIMATION_DURATION, loop = False)
+anim_gray_wiz_cast_2 = pyglet.image.Animation.from_image_sequence(
+    gray_wiz_cast_2, duration=DEFAULT_ANIMATION_DURATION, loop = False)
+anim_gray_wiz_cast_3 = pyglet.image.Animation.from_image_sequence(
+    gray_wiz_cast_3, duration=DEFAULT_ANIMATION_DURATION, loop = False)
+anim_gray_wiz_walk = pyglet.image.Animation.from_image_sequence(
+    gray_wiz_walk, duration=DEFAULT_ANIMATION_DURATION, loop = False)
+anim_gray_wiz_hit = pyglet.image.Animation.from_image_sequence(
+    gray_wiz_hit, duration=DEFAULT_ANIMATION_DURATION, loop = False)
+anim_gray_wiz_birth = pyglet.image.Animation.from_image_sequence(
+    gray_wiz_birth, duration=DEFAULT_BIRTH_ANIM_DURATION, loop = False)
+anim_gray_wiz_death = pyglet.image.Animation.from_image_sequence(
+    gray_wiz_death, duration=DEFAULT_DEATH_ANIM_DURATION, loop = False)
+
+model_gray_wiz = Model(
+    {"walk":anim_gray_wiz_walk,
+    "idle":anim_gray_wiz_idle,
+    "cast1":anim_gray_wiz_cast_1,
+    "cast2":anim_gray_wiz_cast_2,
+    "cast3":anim_gray_wiz_cast_3,
+    "birth":anim_gray_wiz_birth,
+    "death":anim_gray_wiz_death,
+    "hit":anim_gray_wiz_hit})
+
+wizard_models=(model_purple_wiz, model_green_wiz, model_blue_wiz, model_yellow_wiz, model_red_wiz, model_gray_wiz)
 
 # old wizard art
 wizard0 = pyglet.resource.animation("wizard0.gif")
