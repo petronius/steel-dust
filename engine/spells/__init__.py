@@ -23,6 +23,7 @@ class Fireball:
     damage = 5
     defense = 0
     duration = 100
+    anim = "cast1"
 
     def __init__(self):
         self._name = "Fireball"
@@ -41,9 +42,25 @@ class Shield:
     damage = 0
     defense = 10
     duration = 5
+    anim = "cast2"
 
     def __init__(self):
         self._name = "Shield"
 
+    def on_cast(self):
+        pass
+        
+class LightningBlast:
+    spell_level = 2
+    mana_cost = 20
+    casting_combo = "FGN"
+    damage = 10
+    defense = 0
+    duration = 0
+    anim = "cast3"
+    
+    def __init__(self):
+        self._name = "Lightning Blast"
+        
     def on_cast(self):
         pass

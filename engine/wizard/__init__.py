@@ -1,6 +1,7 @@
 import random
 
 import pyglet
+from pyglet import clock
 from PodSixNet.Connection import connection, ConnectionListener
 
 import engine.wizard.namelist
@@ -8,6 +9,7 @@ import engine.wizard.castmanager
 import engine.spells
 import engine.hud.spellbook
 import engine.resources
+import random
 
 
 class Wizard(pyglet.sprite.Sprite, ConnectionListener):
@@ -16,19 +18,23 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
     _spells = [
        engine.spells.Fireball,
        engine.spells.Shield,
+       engine.spells.LightningBlast
     ]
 
     def __init__(self, name, batch, uuid, *args, **kwargs):
         self.uuid = uuid
         self.nameplate = None
-
-        self.animation_manager = engine.wizard.animationmanager.AnimationManager(self, engine.resources.model_purp_wiz)
-        super(Wizard, self).__init__(self.animation_manager.start_new_anim("idle"), *args, **kwargs)
+        
+        self.model = random.choice(engine.resources.wizard_models)
+        self.animation_manager = engine.wizard.animationmanager.AnimationManager(self, self.model)
+        super(Wizard, self).__init__(self.animation_manager.start_new_anim("birth"), *args, **kwargs)
 
         self._name = name
         self._hitpoints = 20
         self._mana = 100
         self._movespeed = 200
+        self._disabled = False
+        self._queued_for_removal = False
         super(Wizard, self).update(scale=3.0)
 
         self.nameplate = pyglet.text.Label(self.__str__(), font_name='Papyrus', anchor_x='center', anchor_y='top')
@@ -42,13 +48,34 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         return "The Wizard %s" % self._name
 
     def key_press(self, key, modifiers):
-        cast_spell = self.cast_manager.key_press(key, modifiers)
-        if cast_spell:
-            print("CASTING %s!" % cast_spell)
+        if not self._disabled:
+            cast_spell = self.cast_manager.key_press(key, modifiers)
+            if cast_spell:
+                self.image = self.animation_manager.start_new_anim(cast_spell.anim)
+                print("CASTING %s!" % cast_spell)
 
     def animation_test(self, key, modifiers):
+        if key == 49:
+            self.image = self.animation_manager.start_new_anim("birth")
+        if key == 50:
+            self.image = self.animation_manager.start_new_anim("walk")
+        if key == 51:
+            self.image = self.animation_manager.start_new_anim("hit")
+        if key == 52:
+            self.image = self.animation_manager.start_new_anim("cast1")
+        if key == 53:
+            self.image = self.animation_manager.start_new_anim("cast2")
+        if key == 54:
+            self.image = self.animation_manager.start_new_anim("cast3")
+        if key == 55:
+            self.image = self.animation_manager.start_new_anim("death")
+        if key == 56:
+            self.model = random.choice(engine.resources.wizard_models)
+            self.animation_manager = engine.wizard.animationmanager.AnimationManager(self, self.model)
+            super(Wizard, self).__init__(self.animation_manager.start_new_anim("birth"), *args, **kwargs)
+        # This Kills The Wizard
         if key == 57:
-            self.image = self.animation_manager.trigger_anim("cast1")
+            self._hitpoints = -1
 
     def update_position(self, x, y):
         self.set_position(x, y)
@@ -70,7 +97,20 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
             self.nameplate.x, self.nameplate.y = self.x, self.y
 
         self.Pump()
+        
+        if self._hitpoints <= 0 and self._queued_for_removal == False:
+            self.die()
+            
+    def die(self):
+        self.image = self.animation_manager.trigger_anim("death")
+        self._disabled = True # disables all input
+        self._queued_for_removal = True # used to prevent die() from being called endlessley from update()
+        #queue removal at a delay equal to the duration of the death animation
+        clock.schedule_once(self.remove_scheduled, self.model.animations["death"].get_duration())
 
+    def remove_scheduled(self, delay):
+        self.remove()
+        
     def remove(self):
         self.batch = None
         self.nameplate.batch = None
