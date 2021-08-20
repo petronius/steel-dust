@@ -116,7 +116,7 @@ class StartingLevel(engine.screen.Screen):
         super(StartingLevel, self).on_draw()
 #        self.shader.use()
         self.game.window.clear()
-#        self.floor_texture.blit_tiled(0, 0, 0, engine.settings.MAP_WIDTH, engine.settings.MAP_HEIGHT)
+        self.floor_texture.blit_tiled(0, 0, 0, engine.settings.MAP_WIDTH, engine.settings.MAP_HEIGHT)
         self.batch.draw()
 #        pyshaders.ShaderProgram.clear()
 

@@ -110,6 +110,7 @@ schools = [
     "Doodles",
     "Erotic Vampire Fiction",
     "Postmodern Theory",
+    "Some Harry Potter Bullshit",
 ]
 
 if __name__ == "__main__":
