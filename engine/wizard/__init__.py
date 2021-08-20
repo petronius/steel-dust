@@ -24,7 +24,6 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
     def __init__(self, name, batch, uuid, *args, **kwargs):
         self.uuid = uuid
         self.nameplate = None
-        
         self.model = random.choice(engine.resources.wizard_models)
         self.animation_manager = engine.wizard.animationmanager.AnimationManager(self, self.model)
         super(Wizard, self).__init__(self.animation_manager.start_new_anim("birth"), *args, **kwargs)
