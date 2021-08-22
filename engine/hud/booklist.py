@@ -1,3 +1,5 @@
+from random import choice
+
 books = [
     "Tome",
     "Volume",
@@ -34,23 +36,17 @@ schools = [
     "Mystery",
     "Befuddlement",
     "Ice Magic",
-    "Must",
-    "Smells",
     "Magic",
     "Sorcery",
     "Hexes",
     "Charms",
-    "Jargon",
     "Spells",
-    "Nonsense",
-    "Old Languages",
     "Damnation",
     "Wisdom",
     "Secrets",
     "Chaos",
     "Witchcraft",
     "Necromancy",
-    "Slutty Magic",
     "the Occult",
     "Enchantment",
     "Binding",
@@ -62,19 +58,12 @@ schools = [
     "Summoning",
     "Angelology",
     "Transformation",
-    "Unusual Beasts",
-    "the Wonders of the East",
-    "Cryptography",
-    "Fortran",
     "Witchery",
-    "Wizzardy",
-    "Brainfuck",
+    "Wizzardry",
     "Poisons",
     "Alchemy",
-    "Most Wickedde Magicke",
     "Madjgycke",
     "Unholy Arts",
-    "Illiberal Arts",
     "Fireballs for Dummies",
     "Lycanthropy",
     "Haruspicy",
@@ -84,13 +73,28 @@ schools = [
     "Ceromancy",
     "Cleromancy",
     "Chronomancy",
-    "Gastromancy",
     "Numerology",
     "Oneiromancy",
     "Tasseomancy",
     "Cartomancy",
     "Rhabdomancy",
     "Pyromancy",
+    "Thaumaturgy",
+    "Exorcism",
+]
+
+rare_schools = [
+    "Inexplicable Woodcuts",
+    "Doodles",
+    "Erotic Vampire Fiction",
+    "Postmodern Theory",
+    "Some Harry Potter Bullshit",
+    "Philology",
+    "Horse Training",
+    "Abyssal Sudoku",
+    "Old Babylonian Crossword Puzzles",
+    "Diophantane Approximation",
+    "Card Tricks",
     "Flim-Flam",
     "Con Artistry",
     "Frauds and Swindles",
@@ -98,22 +102,31 @@ schools = [
     "Awkwardly Out of Date Orientalism",
     "Mistranslated Egyptian Funerary Texts",
     "Malarky",
-    "Thaumaturgy",
-    "Philology",
-    "Horse Training",
-    "Abyssal Sudoku",
-    "Old Babylonian Crossword Puzzles",
-    "Diophantane Approximation",
-    "Card Tricks",
-    "Exorcism",
-    "Inexplicable Woodcuts",
-    "Doodles",
-    "Erotic Vampire Fiction",
-    "Postmodern Theory",
-    "Some Harry Potter Bullshit",
+    "Gastromancy",
+    "Illiberal Arts",
+    "Most Wickedde Magicke",
+    "Brainfuck",
+    "Unusual Beasts",
+    "the Wonders of the East",
+    "Cryptography",
+    "Fortran",
+    "Slutty Magic",
+    "Nonsense",
+    "Old Languages",
+    "Jargon",
+    "Must",
+    "Smells",
 ]
 
+
+def random_spellbook():
+    rare_book = not choice(range(10))
+    if rare_book:
+        return choice(books) + " of " + choice(rare_schools)
+    else:
+        return choice(books) + " of " + choice(schools)
+
+
 if __name__ == "__main__":
-    import random
     for _ in range(100):
-        print("%s of %s" % (random.choice(books), random.choice(schools)))
+        print(random_spellbook())

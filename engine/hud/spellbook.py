@@ -5,17 +5,13 @@ import pyglet
 import engine.hud.booklist
 
 
-def random_spellbook():
-    return choice(engine.hud.booklist.books) + " of " + choice(engine.hud.booklist.schools)
-
-
 class Spellbook:
 
     def __init__(self, spells, batch, bg_group, fg_group):
         self.spell_labels = []
         self.casting_labels = {}
         self.cam_x, self.cam_y = 0, 0
-        self.name = random_spellbook()
+        self.name = engine.hud.booklist.random_spellbook()
         num_spells = len(spells)
         for i, s in enumerate(spells):
             x = 10
