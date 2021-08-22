@@ -1,3 +1,5 @@
+from random import choice
+
 names = [
     "Bob",
     "Mikey",
@@ -311,7 +313,14 @@ colors = [
     "Reliable",
 ]
 
+
+def random_name():
+    name = choice(names)
+    color = choice(colors)
+    return "%s the %s" % (name, color)
+
+
 if __name__ == "__main__":
     import random
     for _ in range(100):
-        print("%s the %s" % (random.choice(names), random.choice(colors)))
+        print(random_name())

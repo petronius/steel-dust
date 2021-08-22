@@ -19,9 +19,9 @@ class MainMenu(engine.screen.Screen):
     def __init__(self, game):
         super(MainMenu, self).__init__(game)
         self.wizard_names = [
-            engine.wizard.random_name(),
-            engine.wizard.random_name(),
-            engine.wizard.random_name(),
+            engine.wizard.namelist.random_name(),
+            engine.wizard.namelist.random_name(),
+            engine.wizard.namelist.random_name(),
         ]
 
     def handleNewGame(self):

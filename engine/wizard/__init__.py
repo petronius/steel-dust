@@ -160,9 +160,3 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         if uuid == self.uuid:
             print("network animation: %s" % data)
             self.image = self.animation_manager.start_new_anim(data.get("state"))
-
-
-def random_name():
-    name = random.choice(namelist.names)
-    color = random.choice(namelist.colors)
-    return "%s the %s" % (name, color)
