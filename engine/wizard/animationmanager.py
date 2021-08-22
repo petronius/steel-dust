@@ -20,7 +20,7 @@ class AnimationManager:
         self.broadcast_anim(state)
         return self.start_new_anim(state)
 
-    def start_new_anim(self, state):
+    def start_new_anim(self, state):  # This should typically not be used, but rather trigger_anim, yes? Make this a private method?
         self.state = state
         anim, time = self.model.get_anim(self.state)
         if anim == None:
