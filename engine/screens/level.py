@@ -36,15 +36,7 @@ class StartingLevel(engine.screen.Screen):
 
         self.player_wizard = engine.wizard.Wizard(wizard_name, self.batch, self.local_player_id)
         self.hud = engine.hud.HUD(self)
-        self.movement_keys = {key.LEFT, key.RIGHT, key.UP, key.DOWN}
-        self.movement_keys = {key.LEFT, key.RIGHT, key.UP, key.DOWN}
         self.animation_test_keys = {key._1, key._2, key._3, key._4, key._5, key._6, key._7, key._8, key._9, key._0}
-        self.key_handler = {
-            key.LEFT: False,
-            key.RIGHT: False,
-            key.UP: False,
-            key.DOWN: False
-        }
         pyglet.clock.schedule_interval(self.update, engine.settings.FRAMERATE)
 
         self.enemy_wizards = {}
@@ -98,16 +90,12 @@ class StartingLevel(engine.screen.Screen):
         del self.enemy_wizards[uuid]
 
     def on_key_press(self, symbol, modifiers):
-        if symbol in self.movement_keys:
-            self.key_handler[symbol] = True
-        self.player_wizard.key_press(symbol, modifiers)
-
+        self.player_wizard.on_key_press(symbol, modifiers)
         if symbol in self.animation_test_keys:
             self.player_wizard.animation_test(symbol, modifiers)
 
     def on_key_release(self, symbol, modifiers):
-        if symbol in self.movement_keys:
-            self.key_handler[symbol] = False
+        self.player_wizard.on_key_release(symbol, modifiers)
 
     def start(self):
         print("GO")
@@ -124,20 +112,7 @@ class StartingLevel(engine.screen.Screen):
         pass
 
     def update(self, dt):
-        new_x, new_y = self.player_wizard.x, self.player_wizard.y
-        if self.key_handler[key.LEFT]:
-            new_x -= self.player_wizard._movespeed * dt
-        if self.key_handler[key.RIGHT]:
-            new_x += self.player_wizard._movespeed * dt
-        if self.key_handler[key.UP]:
-            new_y += self.player_wizard._movespeed * dt
-        if self.key_handler[key.DOWN]:
-            new_y -= self.player_wizard._movespeed * dt
-
-        if new_x != self.player_wizard.x or new_y != self.player_wizard.y:
-            self.player_wizard.update_position(x=new_x, y=new_y)
-
-        self.player_wizard.update()
+        self.player_wizard.update(dt)
         for w in self.enemy_wizards.values():
             w.update()
 

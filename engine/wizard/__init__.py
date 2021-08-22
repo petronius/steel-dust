@@ -2,6 +2,8 @@ import random
 
 import pyglet
 from pyglet import clock
+from pyglet.window import key
+
 from PodSixNet.Connection import connection, ConnectionListener
 
 import engine.wizard.namelist
@@ -32,6 +34,13 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         self._hitpoints = 20
         self._mana = 100
         self._movespeed = 200
+        self.movement_keys = {key.LEFT, key.RIGHT, key.UP, key.DOWN}
+        self.key_handler = {
+            key.LEFT: False,
+            key.RIGHT: False,
+            key.UP: False,
+            key.DOWN: False
+        }
         self._disabled = False
         self._queued_for_removal = False
         super(Wizard, self).update(scale=3.0)
@@ -46,12 +55,20 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
     def __str__(self):
         return "The Wizard %s" % self._name
 
-    def key_press(self, key, modifiers):
+    def on_key_press(self, symbol, modifiers):
         if not self._disabled:
-            cast_spell = self.cast_manager.key_press(key, modifiers)
+            if symbol in self.movement_keys:
+                self.key_handler[symbol] = True
+
+            cast_spell = self.cast_manager.key_press(symbol, modifiers)
             if cast_spell:
                 self.image = self.animation_manager.start_new_anim(cast_spell.anim)
                 print("CASTING %s!" % cast_spell)
+
+    def on_key_release(self, symbol, modifiers):
+        if not self._disabled:
+            if symbol in self.movement_keys:
+                self.key_handler[symbol] = False
 
     def animation_test(self, key, modifiers):
         if key == 49:
@@ -87,7 +104,20 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
     def set_position(self, x, y):
         super(Wizard, self).update(x=x, y=y)
 
-    def update(self):
+    def update(self, dt):
+        new_x, new_y = self.x, self.y
+        if self.key_handler[key.LEFT]:
+            new_x -= self._movespeed * dt
+        if self.key_handler[key.RIGHT]:
+            new_x += self._movespeed * dt
+        if self.key_handler[key.UP]:
+            new_y += self._movespeed * dt
+        if self.key_handler[key.DOWN]:
+            new_y -= self._movespeed * dt
+
+        if new_x != self.x or new_y != self.y:
+            self.update_position(x=new_x, y=new_y)
+
         self.animation_manager.update()
         if self.animation_manager.state == "idle" and self.animation_manager.expires_in <= 0:
             self.image = self.animation_manager.start_new_anim("idle")
@@ -99,11 +129,13 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         
         if self._hitpoints <= 0 and self._queued_for_removal == False:
             self.die()
-            
+
     def die(self):
         self.image = self.animation_manager.trigger_anim("death")
-        self._disabled = True # disables all input
-        self._queued_for_removal = True # used to prevent die() from being called endlessley from update()
+        self._disabled = True  # disables all input
+        self._queued_for_removal = True  # used to prevent die() from being called endlessley from update()
+        for k in self.key_handler:
+            self.key_handler[k] = False
         #queue removal at a delay equal to the duration of the death animation
         clock.schedule_once(self.remove_scheduled, self.model.animations["death"].get_duration())
 
