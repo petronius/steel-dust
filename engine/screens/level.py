@@ -112,7 +112,7 @@ class StartingLevel(engine.screen.Screen):
         pass
 
     def update(self, dt):
-        self.player_wizard.update(dt)
+        self.player_wizard.update_tick(dt)
         for w in self.enemy_wizards.values():
             w.update()
 

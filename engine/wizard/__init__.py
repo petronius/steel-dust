@@ -102,9 +102,9 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
         })
 
     def set_position(self, x, y):
-        super(Wizard, self).update(x=x, y=y)
+        self.update(x=x, y=y)
 
-    def update(self, dt):
+    def update_tick(self, dt):
         new_x, new_y = self.x, self.y
         if self.key_handler[key.LEFT]:
             new_x -= self._movespeed * dt
