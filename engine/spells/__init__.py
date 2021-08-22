@@ -19,7 +19,7 @@ class Fireball:
     """
     spell_level = 1
     mana_cost = 5
-    casting_combo = "PO"
+    casting_combo = "POLKOM"
     damage = 5
     defense = 0
     duration = 100
@@ -38,7 +38,7 @@ class Shield:
     """
     spell_level = 1
     mana_cost = 10
-    casting_combo = "QWE"
+    casting_combo = "QWEDDAX"
     damage = 0
     defense = 10
     duration = 5
@@ -53,7 +53,7 @@ class Shield:
 class LightningBlast:
     spell_level = 2
     mana_cost = 20
-    casting_combo = "FGN"
+    casting_combo = "FGNHBR"
     damage = 10
     defense = 0
     duration = 0
