@@ -117,6 +117,8 @@ class Wizard(pyglet.sprite.Sprite, ConnectionListener):
 
         if new_x != self.x or new_y != self.y:
             self.update_position(x=new_x, y=new_y)
+            if self.animation_manager.state == "idle":
+                self.image = self.animation_manager.start_new_anim("walk")
 
         self.animation_manager.update()
         if self.animation_manager.state == "idle" and self.animation_manager.expires_in <= 0:
